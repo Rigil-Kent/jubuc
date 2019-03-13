@@ -1,0 +1,39 @@
+
+:root {
+    /* colors */
+    --black: 0, 0, 0, 1;
+    --white: rgba(255, 255, 255, 1);
+    --gray50: rgba(0, 0, 0, .5);
+    --beige: rgba(223, 222, 212, 1); 
+    --maroon: 88, 30, 11;
+    --light-maroon: rgba(112, 42, 23, 1);
+    --light-brown: rgba(178, 112, 62, 1);
+    --golden: rgba(234, 217, 146, 1);
+}
+
+body, html {
+    height: 100%;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(88, 30, 11, 1);
+}
+
+
+.jubuc-background {
+    background-image: url('../images/jubuc-background.jpg');
+    background-color: rgba(0, 0, 0, .2);
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

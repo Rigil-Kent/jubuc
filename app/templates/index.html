@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/player.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/player.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tetris.js') }}"></script>
+
+    <title>JUBUC</title>
+  </head>
+  <body>
+    <div class='container-fluid jubuc-background'>
+
+
+
+
+
+        
+    </div>
+    
+
+
+    
+
+    <footer class="container-fluid footer">
+       <div class="row player">
+           <div class="col-1">
+               <a href=""><img class="album-art float-left" src="{{ url_for('static', filename='images/jubuc.jpg') }}"></a>
+           </div>
+
+           <div class="col-2">
+           </div>
+
+           <div class="col">
+               <audio id="music" preload="true">
+                    <source src="http://www.alexkatz.me/codepen/music/interlude.mp3">
+                    <source src="http://www.alexkatz.me/codepen/music/interlude.ogg">
+                </audio>
+
+
+                <div id="audioplayer" class="col">
+                    <div class="row">
+                        <div class="col">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <button id="pButton" class="play"></button>
+                        <div id="timeline">
+                            <div id="playhead"></div><small><span id="duration"></span><span id="currenttime"></span></small>
+                        </div>
+                    </div>
+                </div>
+           </div>
+       </div>
+    </footer>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
