@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         console.log(timeDelta)
         if (music.currentTime == duration || timeDelta <= 0) {
             pButton.className = "";
-            pButton.className = "play";
+            pButton.className = "fa fa-play-circle-o fa-2x";
         }
     }
     
@@ -124,12 +124,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
             music.play();
             // remove play, add pause
             pButton.className = "";
-            pButton.className = "pause";
+            pButton.className = "fa fa-pause-circle fa-2x";
         } else { // pause music
             music.pause();
             // remove pause, add play
             pButton.className = "";
-            pButton.className = "play";
+            pButton.className = "fa fa-play-circle-o fa-2x";
         }
     }
     

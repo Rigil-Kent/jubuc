@@ -13,6 +13,8 @@
 
 body, html {
     height: 100%;
+    color: white !important;
+    /*background-color: rgba(88, 30, 11, 0.1);*/
 }
 
 html {
@@ -20,12 +22,48 @@ html {
     min-height: 100%;
 }
 
+nav {
+    font-size: 16px; 
+    font-weight: 500;
+}
+
+nav::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -100px;
+    height: 10px;
+    width: 100%;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+nav a {
+    font-weight: 600;
+    color:white;
+}
+
+nav a:hover {
+    color: #750202;
+}
 
 .footer {
     position: fixed;
     left: 0;
     bottom: 0;
-    background-color: rgba(88, 30, 11, 1);
+    background-color: rgba(88, 30, 11, 0.1);
+}
+
+.footer::before {
+    content: '';
+    position: fixed;
+    top: -10px;
+    left: -100px;
+    height: 10px;
+    width: 100%;
+    -webkit-box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+    -moz-box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+    box-shadow: -10px -10px -5px rgba(0, 0, 0, 0.5);
+    z-index: 100;
 }
 
 
@@ -37,3 +75,51 @@ html {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.nav-brand img {
+    position: absolute;
+    margin-top: 40%;
+    margin-left: 15%;
+    width: 70%;
+}
+
+
+.front-gallery img {
+    width: 100px;
+    height: 100px;
+}
+
+.modal img {
+    width: 100%;
+    height: 100%;
+}
+
+.modal {
+    color: black;
+}
+
+#j1, #j2, #j3, #j4, #j5, #j6 {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#j1:hover, #j2:hover, #j3:hover, #j4:hover, #j5:hover, #j6:hover {
+    opacity: 0.6;
+}
+
+
+
+
+.modal-content, .caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+
+@keyframes zoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+

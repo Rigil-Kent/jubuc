@@ -9,6 +9,7 @@
     padding: 0;
     margin:0;
 }
+
 .play {
     background: url('../images/play.png');
 }
@@ -41,7 +42,7 @@
     margin-top: 21px;
     margin-left: 10px;
     border-radius: 5px;
-    background: rgba(0, 0, 0, .3);
+    background: rgba(0, 0, 0, .5);
 }
 
 #timeline span {
@@ -52,5 +53,5 @@
 #playhead {
     width: 10px;
     height: 10px;
-    background: rgba(0, 0, 0, 1)
+    background: rgba(255, 255, 255, 1);
 }

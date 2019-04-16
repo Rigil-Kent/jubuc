@@ -6,22 +6,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/player.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jubuc.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/player.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/tetris.js') }}"></script>
 
-    <title>JUBUC</title>
+    <title>JUBUC - </title>
   </head>
   <body>
+
     <div class='container-fluid jubuc-background'>
+        <nav class="nav navbar" style="background-color: rgba(88, 30, 11, 0.1);">
+            <div class="col">
+                <ul class="nav">
+                  <li class="nav-item"><a  class="nav-link" href="" alt="" title=""><span class="fa fa-facebook"></span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-soundcloud"></span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-twitter"></span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-instagram"></span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-youtube"></span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-spotify"></span></a></li>
+                </ul>
+            </div>
+            
+            <div class="col">
+                
+            </div>
 
+            <div class="col mr-auto">
+                <ul class="nav justify-content-end">
+                  <li class="nav-item"><a class="nav-link" href="" alt="" title="">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="" alt="" title="">About</a></li>
+                  <li class="nav-item"><a class="nav-link" href="" alt="" title="">Events</a></li>
+                  <li class="nav-item"><a class="nav-link" href="" alt="" title="">Media</a></li>
+                  <li class="nav-item"><a class="nav-link" href="" alt="" title="">Shop</a></li>
+                </ul>
+              </div>
+          </nav>
 
+          <div class="container-fluid">
+              <div class="row front-gallery">
+                  <div class="col-6">
+                      <div class="col">
+                          <img id="j1" src="{{ url_for('static', filename='images/j1.jpg') }}" data-toggle="modal" data-target="#j1Modal" alt="Jubuc">
+                          <div class="modal" id="j1Modal">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h4 class="modal-title">Jubuc</h4>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <img class="modal-body" src="{{ url_for('static', filename='images/j1.jpg') }}">
+                                  </div>
+                              </div>
+                          </div>
 
+                          <img id="j2" src="{{ url_for('static', filename='images/j2.jpg') }}" data-toggle="modal" data-target="#j2Modal" alt="Jubuc">
+                          <div class="modal" id="j2Modal">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h4 class="modal-title">Jubuc</h4>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <img class="modal-body" src="{{ url_for('static', filename='images/j2.jpg') }}">
+                                  </div>
+                              </div>
+                          </div>
 
+                          <img id="j3" src="{{ url_for('static', filename='images/j3.jpg') }}" data-toggle="modal" data-target="#j3Modal"  alt="Jubuc">
+                          <div class="modal" id="j3Modal">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h4 class="modal-title">Jubuc</h4>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <img class="modal-body" src="{{ url_for('static', filename='images/j3.jpg') }}">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
 
-        
+                      <div class="col">
+                          <img id="j4" src="{{ url_for('static', filename='images/j4.jpg') }}" data-toggle="modal" data-target="#j4Modal" alt="Jubuc">
+                          <div class="modal" id="j4Modal">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h4 class="modal-title">Jubuc</h4>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <img class="modal-body" src="{{ url_for('static', filename='images/j4.jpg') }}">
+                                  </div>
+                              </div>
+                          </div>
+
+                          <img id="j5" src="{{ url_for('static', filename='images/j5.jpg') }}" data-toggle="modal" data-target="#j5Modal" alt="Jubuc">
+                          <div class="modal" id="j5Modal">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h4 class="modal-title">Jubuc</h4>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <img class="modal-body" src="{{ url_for('static', filename='images/j5.jpg') }}">
+                                  </div>
+                              </div>
+                          </div>
+
+                          <img id="j6" src="{{ url_for('static', filename='images/j6.jpg') }}" data-toggle="modal" data-target="#j6Modal" alt="Jubuc">
+                          <div class="modal" id="j6Modal">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h4 class="modal-title">Jubuc</h4>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <img class="modal-body" src="{{ url_for('static', filename='images/j6.jpg') }}">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <button class="btn success"><a href="{{ url_for('photos') }}" alt="More Photos">More Picutres</a></button>
+                      <!--<a class="nav-item nav-link nav-brand"><img src="{{ url_for('static', filename='images/jubuc-logo.png') }}"></a>-->
+                  </div>
+                  <div class="col-6">
+                      <h1 class="display-1">#JUBUC</h1>
+                      <h2>Your Heart Wants To Sing</h2>
+                      <h3>I Want To Faciliate That</h3>
+                  </div>
+              </div>
+          </div>
     </div>
     
 
@@ -49,7 +167,7 @@
                     </div>
 
                     <div class="row">
-                        <button id="pButton" class="play"></button>
+                        <span id="pButton" class="fa fa-play-circle-o fa-2x"></span>
                         <div id="timeline">
                             <div id="playhead"></div><small><span id="duration"></span><span id="currenttime"></span></small>
                         </div>
