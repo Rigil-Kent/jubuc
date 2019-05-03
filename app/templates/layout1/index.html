@@ -47,9 +47,17 @@
           </nav>
 
           <div class="container-fluid">
-              <div class="row front-gallery">
-                  <div class="col-6">
+              <div class="row ">
+                  <div class="col-6 front-gallery">
+                      <div class="gallery">
                       <div class="col">
+                          <div class="row">
+                             <div class="col">
+                                 <br>
+                                 <br>
+                                 
+                             </div>
+                          </div>
                           <img id="j1" src="{{ url_for('static', filename='images/j1.jpg') }}" data-toggle="modal" data-target="#j1Modal" alt="Jubuc">
                           <div class="modal" id="j1Modal">
                               <div class="modal-dialog">
@@ -130,13 +138,12 @@
                               </div>
                           </div>
                       </div>
-                      <button class="btn success"><a href="{{ url_for('photos') }}" alt="More Photos">More Picutres</a></button>
-                      <!--<a class="nav-item nav-link nav-brand"><img src="{{ url_for('static', filename='images/jubuc-logo.png') }}"></a>-->
+                      </div>
+                      <!--<a href="{{ url_for('photos') }}" alt="More Photos">More Picutres</a><br>-->
+                      <img src="{{ url_for('static', filename='images/jubuc-logo.png') }}" style="width: 60%; height: 60%;">
                   </div>
                   <div class="col-6">
-                      <h1 class="display-1">#JUBUC</h1>
-                      <h2>Your Heart Wants To Sing</h2>
-                      <h3>I Want To Faciliate That</h3>
+                      
                   </div>
               </div>
           </div>
@@ -161,10 +168,6 @@
 
 
                 <div id="audioplayer" class="col">
-                    <div class="row">
-                        <div class="col">
-                        </div>
-                    </div>
 
                     <div class="row">
                         <span id="pButton" class="fa fa-play-circle-o fa-2x"></span>

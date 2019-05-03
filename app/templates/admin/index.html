@@ -1,0 +1,93 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <button class="btn btn-sm btn-outline-secondary">Promote</button>
+            <button class="btn btn-sm btn-outline-secondary"><a href="{{ url_for('index') }}">View Site</a></button>
+        </div>
+    </div>
+
+    <div class="row justify-content-between align-items-center">
+    <div class="col-md-2 text-center">
+        <div class="card mb-2">
+            <div class="card-body">
+                <h1>0</h1>
+                <h6 class="text-muted">Users</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 text-center">
+        <div class="card mb-2">
+            <div class="card-body">
+                <h1>0</h1>
+                <h6 class="text-muted">Orders</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 text-center">
+        <div class="card mb-2">
+            <div class="card-body">
+                <h1>0</h1>
+                <h6 class="text-muted">Products</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 text-center">
+        <div class="card mb-2">
+            <div class="card-body">
+                <h1>0</h1>
+                <h6 class="text-muted">Posts</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 text-center">
+        <div class="card mb-2">
+            <div class="card-body">
+                <h1>0</h1>
+                <h6 class="text-muted">Projects</h6>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+
+
+
+    <h2>New Users</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <th>Userid</th>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Email</th>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Knowsnothing</td>
+                    <td>Aegon Targaryan</td>
+                    <td>kinginthenorth@stark.org</td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>NoOne</td>
+                    <td>Jaqen Hagar</td>
+                    <td>NULL</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock content %}

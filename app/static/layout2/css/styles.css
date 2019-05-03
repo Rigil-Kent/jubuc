@@ -1,0 +1,84 @@
+body, html {
+    height: 100%;
+    padding-top: 32px;
+}
+
+
+nav {
+    font-size: 16px; 
+    font-weight: 500;
+    background-color: white;
+    color: #750202;;
+}
+
+nav::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -77px;
+    height: 10px;
+    width: 106%;
+    box-shadow: 5px 5px 3px rgba(0, 0, 0, 0.5);
+}
+
+
+nav a:link, nav a:visited {
+    color: #C0C0C0;
+}
+
+nav a:hover {
+    color: #750202;
+}
+
+.jubuc-background {
+    background-image: url('../images/jubuc-background.jpg');
+    background-color: rgba(0, 0, 0, .2);
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.info-container {
+    position: relative;
+    height: 450px; 
+}
+
+.image {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: 450px;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    object-fit: cover;
+}
+
+
+.img-info {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
+.info-container:hover .image {
+    opacity: 0.8;
+}
+
+.info-container:hover .img-info {
+    opacity: 1;
+}
+
+.border-jubuc {
+    border-color: #750202 !important;
+    background-size: 3px !important;
+}
