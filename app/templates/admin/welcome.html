@@ -1,0 +1,246 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <section class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Welcome to your new site!</h1>
+                <p class="lead">With just a few bits of information we can get you set up to go live! Here you will set up the Administrative user,  
+                upload a few audio tracks and post your first blog post.</p>
+
+
+
+                
+
+
+
+                <form action="" method="POST">
+                   {{ form.hidden_tag() }}
+                   <ul class="nav nav-tabs" id="setup" role="tablist">
+                     <li class="nav-item">
+                       <a class="nav-link active" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="true">User Info</a>
+                     </li>
+                     <li class="nav-item">
+                       <a class="nav-link" id="index-tab" data-toggle="tab" href="#index" role="tab" aria-controls="index" aria-selected="false">Front Page</a>
+                     </li>
+                     <li class="nav-item">
+                       <a class="nav-link" id="social-tab" data-toggle="tab" href="#social" role="tab" aria-controls="social" aria-selected="false">Social Info</a>
+                     </li>
+                     <li class="nav-item">
+                       <a class="nav-link" id="tweet-tab" data-toggle="tab" href="#tweet" role="tab" aria-controls="tweet" aria-selected="false">Twitter Authorization</a>
+                     </li>
+                     <li class="nav-item">
+                       <a class="nav-link disabled" id="audio-tab" data-toggle="tab" href="#audio" role="tab" aria-controls="audio" aria-selected="false">Audio</a>
+                     </li>
+                   </ul>
+                   <div class="tab-content" id="setupContent">
+
+
+                     <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="home-tab">
+                         
+                         <p>
+                         {{ form.first_name.label }}
+                         {{ form.first_name(class="form-control") }}
+                         {% for error in form.first_name.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.last_name.label }}
+                         {{ form.last_name(class="form-control") }}
+                         {% for error in form.last_name.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.username.label }}
+                         {{ form.username(class="form-control") }}
+                         {% for error in form.username.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.email.label }}
+                         {{ form.email(class="form-control") }}
+                         {% for error in form.email.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.password.label }}
+                         {{ form.password(class="form-control") }}
+                         {% for error in form.password.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.confirm.label }}
+                         {{ form.confirm(class="form-control") }}
+                         {% for error in form.confirm.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+                     </div>
+
+                     <div class="tab-pane fade show" id="index" role="tabpanel" aria-labelledby="index-tab">
+                        <p>
+                        {{ form.site_title.label }}
+                        {{ form.site_title(class="form-control") }}
+                        {% for error in form.site_title.errors %}
+                            <span class="red">{{ error }}</span>
+                        {% endfor %}
+                        </p>
+
+                        <p>
+                        {{ form.site_logo_text.label }}
+                        {{ form.site_logo_text(class="form-control") }}
+                        {% for error in form.site_logo_text.errors %}
+                            <span class="red">{{ error }}</span>
+                        {% endfor %}
+                        </p>
+
+                        <p>
+                        {{ form.site_logo_image.label }}
+                        {{ form.site_logo_image(class="form-control-file") }}
+                        {% for error in form.site_logo_image.errors %}
+                            <span class="red">{{ error }}</span>
+                        {% endfor %}
+                        </p>
+
+                        <p>
+                        {{ form.jumbotron_image.label }}
+                        {{ form.jumbotron_image(class="form-control-file") }}
+                        {% for error in form.jumbotron_image.errors %}
+                            <span class="red">{{ error }}</span>
+                        {% endfor %}
+                        </p>
+
+                        <p>
+                        {{ form.site_dominant_color.label }}
+                        {{ form.site_dominant_color(class="form-control cp") }}<br>
+                        <small class="text-muted">Your brand color - think Coca-Cola's "fire engine" red</small>
+                        {% for error in form.site_dominant_color.errors %}
+                            <span class="red">{{ error }}</span>
+                        {% endfor %}
+                        </p>
+
+                        <p>
+                        {{ form.site_accent_color.label }}
+                        {{ form.site_accent_color(class="form-control cp") }}<br>
+                        <small class="text-muted"></small>
+                        {% for error in form.site_accent_color.errors %}
+                            <span class="red">{{ error }}</span>
+                        {% endfor %}
+                        </p>
+
+                        <p>
+                        {{ form.site_background_color.label }}
+                        {{ form.site_background_color(class="form-control cp") }}
+                        {% for error in form.site_background_color.errors %}
+                            <span class="red">{{ error }}</span>
+                        {% endfor %}
+                        </p>
+                     </div>
+
+
+                     <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
+                         <p>
+                         {{ form.facebook.label }}
+                         {{ form.facebook(class="form-control") }}
+                         {% for error in form.facebook.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.twitter.label }}
+                         {{ form.twitter(class="form-control") }}
+                         {% for error in form.twitter.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.instagram.label }}
+                         {{ form.instagram(class="form-control") }}
+                         {% for error in form.instagram.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.soundcloud.label }}
+                         {{ form.soundcloud(class="form-control") }}
+                         {% for error in form.soundcloud.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.youtube.label }}
+                         {{ form.youtube(class="form-control") }}
+                         {% for error in form.youtube.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.spotify.label }}
+                         {{ form.spotify(class="form-control") }}
+                         {% for error in form.spotify.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+                     </div>
+
+                     <div class="tab-pane fade" id="tweet" role="tabpanel" aria-labelledby="tweet-tab">
+                         <p>
+                         {{ form.twitter_consumer_key.label }}
+                         {{ form.twitter_consumer_key(class="form-control") }}
+                         {% for error in form.twitter_consumer_key.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.twitter_consumer_key_secret.label }}
+                         {{ form.twitter_consumer_key_secret(class="form-control") }}
+                         {% for error in form.twitter_consumer_key_secret.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.twitter_access_token.label }}
+                         {{ form.twitter_access_token(class="form-control") }}
+                         {% for error in form.twitter_access_token.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+
+                         <p>
+                         {{ form.twitter_access_token_secret.label }}
+                         {{ form.twitter_access_token_secret(class="form-control") }}
+                         {% for error in form.twitter_access_token_secret.errors %}
+                             <span class="text-red">{{ error }}</span>
+                         {% endfor %}
+                         </p>
+                     </div>
+
+                     
+
+
+                   </div>
+                   <p> {{ form.submit(class="btn btn-success") }}</p>
+
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}
