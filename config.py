@@ -10,7 +10,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = basedir + "/app/static/uploads"
     POSTS = UPLOAD_FOLDER + "/posts"
-    ALBUMS = UPLOAD_FOLDER + "/albums"
-    AUDIO = UPLOAD_FOLDER + "/audio"
+    ALBUMS = UPLOAD_FOLDER + "/albums/"
+    AUDIO = UPLOAD_FOLDER + "/audio/"
     ADMIN = "bryan.bailey@brizzle.dev"
     POSTS_PER_PAGE = 12

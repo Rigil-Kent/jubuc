@@ -9,7 +9,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" type="text/css">
-    
+    <script type="text/javascript">
+          function cbChange(obj) {
+    var cbs = document.getElementsByClassName("cbx");
+    for (var i = 0; i < cbs.length; i++) {
+        cbs[i].checked = false;
+    }
+    obj.checked = true;
+}
+      </script>
+
     <title>Powered by AWS</title>
   </head>
   <body>
@@ -33,6 +42,7 @@
       }, 3000);
       </script>
 
+      
     {% include 'admin/footer.html' %}
   </body>
 

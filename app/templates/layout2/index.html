@@ -41,8 +41,14 @@
 
     <div class="col d-none d-lg-block" id="player">
         <audio id="music" preload="true">
+          {% if track %}
+
+          <source src="{{ url_for('static', filename='uploads/audio/' + track.audio.file) }}">
+
+          {% else %}
           <source src="http://www.alexkatz.me/codepen/music/interlude.mp3">
           <source src="http://www.alexkatz.me/codepen/music/interlude.ogg">
+          {% endif %}
         </audio>
 
         <div id="audioplayer" class="col">

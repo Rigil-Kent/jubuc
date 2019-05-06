@@ -68,8 +68,15 @@ class Administrator(db.Model):
     def check_password(self, password):
         return check_password_hash(self.pass_hash, password)
 
+
 class Audio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), index=True)
     file = db.Column(db.String(256))
     album_art = db.Column(db.String(256))
+    is_active = db.Column(db.Boolean, index=True, default=False)
+    active = db.relationship('Active', backref="audio", uselist=False)
+
+class Active(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    track_id = db.Column(db.Integer, db.ForeignKey('audio.id'))

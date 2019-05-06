@@ -1,9 +1,14 @@
-from wtforms import SubmitField, StringField, PasswordField, TextAreaField, SelectField, FileField, RadioField, MultipleFileField
+from wtforms import SubmitField, StringField, BooleanField, PasswordField, TextAreaField, SelectField, FileField, RadioField, MultipleFileField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 from flask_wtf import FlaskForm
+from app.models import Audio
 from wtforms import validators
 from wtforms.validators import DataRequired, EqualTo
+from wtforms.ext.sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 
+
+def audio_factory():
+    return Audio.query
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -50,3 +55,14 @@ class UserForm(FlaskForm):
     instagram = StringField('Instagram')
     bio = TextAreaField('About Me')
     avatar = FileField('Avatar')
+
+class AudioForm(FlaskForm):
+    name = StringField('Track Title', validators=[DataRequired()])
+    file = FileField('Track File', validators=[DataRequired()])
+    album_art = FileField('Album Art')
+    is_active = BooleanField('Active?')
+    submit = SubmitField('Add')
+
+class PlayerForm(FlaskForm):
+    active_track = QuerySelectField('Active Track ', query_factory=audio_factory, allow_blank=True, get_label="name")
+    submit = SubmitField('Set Active Track')

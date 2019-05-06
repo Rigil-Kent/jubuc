@@ -1,0 +1,108 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
+        <h1 class="h2">Audio</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#audioAdminForm" role="button" aria-controls="#audioAdminForm">New Track</a></button>
+        </div>
+    </div>
+    
+
+    <div class="col collapse" id="audioAdminForm">
+            <form action="{{ url_for('admin_audio') }}" method="POST" enctype=multipart/form-data>
+                {{ form.hidden_tag() }}
+                <p class="form-group">
+                    {{ upform.name.label }}
+                    {{ upform.name(class="form-control")}}
+                    {% for error in upform.name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ upform.file.label }}
+                    {{ upform.file(class="form-control-file")}}
+                    {% for error in upform.file.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ upform.album_art.label }}
+                    {{ upform.album_art(class="form-control-file")}}
+                    {% for error in upform.album_art.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-check">
+                    
+                    {{ upform.is_active(class="form-check-input")}}
+                    {{ upform.is_active.label(class="form-check-label") }}
+                    {% for error in upform.is_active.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ upform.submit(class="btn btn-success") }}
+                </p>
+            
+            </form>
+    </div>
+    
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2">
+    <h2>All Audio Tracks</h2>
+
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col">
+                {{ form.active_track(class="form-control-sm") }}
+                {% for error in form.active_track.errors %}
+                    <span class="text-red">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="col">
+                <p> {{ form.submit(class="btn btn-sm btn-success")}} </p>
+            </div>
+        </div>
+    </form>
+    </div>
+    <section class="table-responsive">
+
+            <table class="table table-striped">
+                <thead>
+                    <th>AudioID</th>
+                    <th>Title</th>
+                    <th>File</th>
+                    <th>Album Art</th>
+                    <th>Delete?</th>
+                </thead>
+
+                <tbody>
+                    {% if tracks %}
+                    {% for track in tracks %}
+                    <tr>
+                    
+                    <td>{{ track.id }}</td>
+                    <td>{{ track.name }}</td>
+                    <td>{{ track.file }}</td>
+                    <td>{{ track.album_art }}</td>
+                    <td><a href="" class="btn btn-danger">&times;</a></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    
+                </tbody>
+
+            </table>
+
+
+    </section>
+
+</main>
+{% endblock content %}
