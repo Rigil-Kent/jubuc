@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if (music.currentTime == duration || timeDelta <= 0) {
             pButton.className = "";
             pButton.className = "fa fa-play-circle-o fa-2x";
+            playhead.style.marginLeft = "0px";
         }
     }
     
