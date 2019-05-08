@@ -91,6 +91,11 @@ def index():
 
     return render_template('index.html', track=track, posts=posts, shows=shows)
 
+@app.route('/about')
+def about():
+    track = db.session.query(Active).get(1)
+    post = db.session.query(Post).order_by(Post.id.desc()).first()
+    return render_template('about.html', post=post, track=track)
 
 @app.route('/blog/<slug>')
 def blog_post(slug):
