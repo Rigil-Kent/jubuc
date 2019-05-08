@@ -35,7 +35,7 @@
     {% endblock %}
     <title>JUBUC - </title>
   </head>
-  <body>
+  <body style="background-color:#E8E8E8;">
   <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3&appId=206574139389252&autoLogAppEvents=1"></script>
 
   <!-- navigation -->
@@ -86,63 +86,83 @@
 <div class="container-fluid jubuc-background-clear">
 </div>
   <div class="container mt-5 text-danger">
-      <h2 class="border-bottom border-secondary pt-1">&lt; Back to blog</h2>
+      <h2 class="border-bottom border-secondary pt-1">Come see Jubuc</h2>
       <div class="row">
           <div class="col-md-7">
-              <h2 class="display-4 mb-0 pb-0">{{ post.title }}</h2>
-              <h5 class="text-muted">{{ moment(post.timestamp).format('LLLL')}}</h5>
-              <small>by {{ post.author.first_name }}</small>
-              <img class="img-fluid" src="{{ url_for('static', filename='uploads/posts/' + post.featured_image) }}" alt="{{ post.title }}" title="{{ post.title }}">
-
-              {{ post.body }}
-          </div>
-
-          <div class="col-md-4">
-              {% if next %}
-                  <a class="text-secondary" href="{{ url_for('blog_post', slug=next.slug) }}" alt="{{ next.title }}" title="{{ next.title }}">
-                      <h4 class="text-center">next article</h4>
-                <div class="card card-inverse card-info bg-danger">
-                    <img class="card-img-top" src="{{ url_for('static', filename='uploads/posts/' + next.featured_image) }}">
-                    <div class="card-block">
-                        <figure class="profile profile-inline">
-                            <img src="{% if next.author.avatar %}{{ url_for('static', filename='uploads/' + next.author.avatar) }}{% else %}https://picsum.photos/200/150/?random{% endif %}" class="profile-avatar" alt="">
-                        </figure>
-                        <h4 class="card-title text-white">{{ next.author.first_name }}</h4>
-                        <div class="card-text lead text-truncate">
-                          <h5><a class="text-white" href="{{ url_for('blog_post', slug=next.slug) }}" alt="{{ next.title }}" title="{{ next.title }}">{{ next.title }}</a></h5>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-danger text-white">
-                        <small>{{moment(next.timestamp).format('LL')}}</small>
-                  
-                    </div>
-                </div>
-                  </a>
+              <h3>Upcoming shows</h3>
+              <table class="table table-striped table-responsive-xl">
+              <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Venue</th>
+                      <th scope="col">City</th>
+                      <th scope="col"></th>
+                  </tr>
+              </thead>
+              {% if shows %}
+              {% for show in shows %}
+              <tr>
+                  <td>{{ moment(show.timestamp).format("LLLL") }}</td>
+                  <td>{{ show.venue | safe}}</td>
+                  <td>Baltimore, MD</td>
+                  <td><a class="btn btn-danger" type="button">RSVP</button></td>
+              </tr>
+              {% endfor %}
               {% endif %}
 
-              {% if prev %}
-                  <a class="text-secondary"  href="{{ url_for('blog_post', slug=prev.slug) }}" alt="{{ prev.title }}" title="{{ prev.title }}">
-                      <h4 class="text-center">Previous article</h4>
-                <div class="card card-inverse card-info bg-danger">
-                    <img class="card-img-top" src="{{ url_for('static', filename='uploads/posts/' + prev.featured_image) }}">
-                    <div class="card-block">
-                        <figure class="profile profile-inline">
-                            <img src="{% if prev.author.avatar %}{{ url_for('static', filename='uploads/' + prev.author.avatar) }}{% else %}https://picsum.photos/200/150/?random{% endif %}" class="profile-avatar" alt="">
-                        </figure>
-                        <h4 class="card-title text-white">{{ prev.author.first_name }}</h4>
-                        <div class="card-text lead text-truncate">
-                          <h5><a class="text-white" href="{{ url_for('blog_post', slug=prev.slug) }}" alt="{{ prev.title }}" title="{{ prev.title }}">{{ prev.title }}</a></h5>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-danger text-white">
-                        <small>{{moment(prev.timestamp).format('LL')}}</small>
-                  
-                    </div>
-                </div>
-                  </a>
+          
+          </table>
+
+          <h3>Past shows<h3>
+
+          <table class="table table-striped table-responsive-xl">
+              <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Venue</th>
+                      <th scope="col">City</th>
+                      <th scope="col"></th>
+                  </tr>
+              </thead>
+              {% if past_shows %}
+              {% for past in past_shows %}
+              <tr>
+                  <td>{{ moment(past.timestamp).format("LLLL") }}</td>
+                  <td>{{ past.venue | safe}}</td>
+                  <td>Baltimore, MD</td>
+                  <td><a class="btn btn-danger" type="button">RSVP</button></td>
+              </tr>
+              {% endfor %}
               {% endif %}
+
+          
+          </table>
           </div>
-      </div>
+
+          <div class="col-md-4 bg-danger text-white">
+              <form action="" method="POST">
+                  <h2 class="text-center pt-1">Book a show</h2>
+                  <div class="form-group">
+                      <label for="name">Name: </label>
+                      <input type="name" class="form-control" id="name">
+                  </div>
+
+                  <div class="form-group">
+                      <label for="email">Email: </label>
+                      <input type="email" class="form-control" id="email">
+                  </div>
+
+                  <div class="form-group">
+                      <label for="phone">Phone: </label>
+                      <input type="phone" class="form-control" id="phone">
+                  </div>
+
+                  <div class="form-group">
+                      <label for="message">Message: </label>
+                      <textarea type="message" class="form-control" id="message"></textarea>
+                  </div>
+              </form>
+          </div>
 
   
 

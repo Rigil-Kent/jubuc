@@ -1,6 +1,6 @@
 import os
 import string
-from datetime import datetime
+from datetime import datetime, timedelta, date
 from app import app, db
 from flask import render_template, redirect, flash, session, request, send_from_directory, url_for
 from app.models import Administrator, User, Audio, Active, Post, Show
@@ -96,6 +96,15 @@ def about():
     track = db.session.query(Active).get(1)
     post = db.session.query(Post).order_by(Post.id.desc()).first()
     return render_template('about.html', post=post, track=track)
+
+
+@app.route('/shows')
+def shows():
+    track = db.session.query(Active).get(1)
+    shows = Show.query.filter(Show.timestamp >= date.today())
+    past_shows = Show.query.filter(Show.timestamp <= date.today())
+    return render_template('shows.html', track=track, shows=shows, past_shows=past_shows)
+
 
 @app.route('/blog/<slug>')
 def blog_post(slug):
