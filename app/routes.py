@@ -1,8 +1,10 @@
 import os
+import string
+from datetime import datetime
 from app import app, db
 from flask import render_template, redirect, flash, session, request, send_from_directory, url_for
-from app.models import Administrator, User, Audio, Active
-from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm
+from app.models import Administrator, User, Audio, Active, Post, Show
+from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PostForm, ShowForm
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import Markup
 from werkzeug.urls import url_parse
@@ -11,6 +13,7 @@ from werkzeug.utils import secure_filename
 
 #region global vars & methods
 accepted_methods = ["GET", "POST"]
+translate = str.maketrans('', '', string.punctuation)
 
 
 def upload_file(filerequest, type=None):
@@ -18,14 +21,14 @@ def upload_file(filerequest, type=None):
         if filerequest not in request.files:
             message = Markup('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>No file part</div>')
             flash(message)
-            return redirect(request.url_rule.endpoint)
+            return redirect(request.url)
         
         file = request.files[filerequest]
         print("attempting to upload {}".format(file.filename))
         if file.filename == '':
             message = Markup('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>No selected file</div>')
             flash(message)
-            return redirect(request.url_rule.endpoint)
+            return redirect(request.url)
 
         try:
             filename = secure_filename(file.filename)
@@ -44,7 +47,7 @@ def upload_file(filerequest, type=None):
         except Exception as e:
             message = Markup('<div class="alert alert-dagner alert-dismissible"><button type="button" class="close">&times;</button>File upload failed: {}'.format(e))
             flash(message)
-            return redirect(url_for(request.url_rule.endpoint))
+            return redirect(url_for(request.url))
 
 #endregion
 
@@ -52,7 +55,7 @@ def upload_file(filerequest, type=None):
 @app.route('/login', methods=accepted_methods)
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('alt_index'))
+        return redirect(url_for('index'))
 
     form = LoginForm()
 
@@ -65,9 +68,9 @@ def login():
         login_user(user)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('alt_index')
+            next_page = url_for('index')
         return redirect(next_page)
-    return render_template('layout2/login.html', form=form)
+    return render_template('login.html', form=form)
 
 
 @app.route('/logout')
@@ -76,21 +79,43 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/')
+@app.route('/', methods=accepted_methods)
 def index():
-    return render_template('layout1/index.html')
-
-
-@app.route('/index', methods=accepted_methods)
-def alt_index():
     admin = db.session.query(Administrator).count()
     track = db.session.query(Active).get(1)
-    print(admin)
+    posts = db.session.query(Post).all()
+    shows = db.session.query(Show).all()
 
     if admin == 0:
         return redirect(url_for('admin_welcome'))
 
-    return render_template('layout2/index.html', track=track)
+    return render_template('index.html', track=track, posts=posts, shows=shows)
+
+
+@app.route('/blog/<slug>')
+def blog_post(slug):
+    post = Post.query.filter_by(slug=slug).first_or_404()
+    prev_id = post.id - 1
+    next_id = post.id + 1
+    if prev_id > 0:
+        prev = Post.query.filter_by(id=(prev_id)).first()
+    else:
+        prev = None
+
+    if next_id > 0:
+        _next = Post.query.filter_by(id=next_id).first()
+    else:
+        _next = None
+
+    track = db.session.query(Active).get(1)
+    
+    return render_template('blog_post.html', prev=prev, next=_next, post=post, track=track)
+
+@app.route('/shows/<slug>')
+def show_post(slug):
+    show = db.session.query(Show).filter_by(slug=Show.slug).first()
+    track = db.session.query(Active).get(1)
+    return render_template('blog_post.html', show=show, track=track)
 
 @app.route('/photos')
 def photos():
@@ -202,4 +227,59 @@ def admin_audio():
 
     return render_template('admin/audio.html', form=form, upform=upform, tracks=tracks)
 
+@app.route('/admin/posts', methods=accepted_methods)
+def admin_posts():
+    form = PostForm()
+    posts = Post.query.all()
+
+
+    if form.validate_on_submit():
+        post = Post()
+
+        post.user_id = current_user.id
+        post.title = form.title.data
+        post.slug = form.title.data.translate(translate).replace(' ', '-').lower()
+        post.body = form.body.data
+        if form.featured_image.data is not None:
+            post.featured_image = upload_file('featured_image', 'post')
+
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> {} was posted sucessfully. </div>'.format(form.title.data))
+        db.session.add(post)
+        db.session.commit()
+        flash(message)
+
+        return redirect(url_for('admin_posts'))
+    return render_template('admin/posts.html', form=form, posts=posts)
+
+@app.route('/admin/shows', methods=accepted_methods)
+def admin_shows():
+    form = ShowForm()
+    shows = db.session.query(Show).all()
+    
+
+    if form.validate_on_submit():
+        show = Show()
+        show.title = form.title.data
+        show.slug = form.title.data.translate(translate).replace(' ', '-').lower()
+        show.user_id = current_user.id
+        show.timestamp = form.timestamp.data
+        show.location = form.location.data
+        show.url = form.url.data4
+        show.details = form.details.data
+        if form.url.data is not None:
+            show.venue = '<a href="{}" alt="{}" title="{}">{}</a>'.format(form.url.data, form.title.data, form.title.data, form.title.data)
+        else:
+            show.venue = show.location
+
+        if form.featured_image.data is not None:
+             show.featured_image = upload_file('featured_image', 'post')
+        
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> {} was posted on the front page</div>'.format(form.title.data))
+        
+        db.session.add(show)
+        db.session.commit()
+        flash(message)
+        return redirect(url_for('admin_shows'))
+
+    return render_template('admin/shows.html', form=form, shows=shows)
 #endregion

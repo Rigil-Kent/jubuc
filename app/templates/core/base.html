@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:url" context="https://www.iamjubuc.com">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="DJ Jubuc Baltimore">
+    <meta property="og:description" content = "DJ Jubuc. Baltimore's leading DJ.">
+    <meta propert="og:image" content="">
+    <meta property="og:image:width" content="700">
+    <meta property="og:image:height" content="600">
+    <meta property="og:app_id" content="206574139389252">
+
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layout2/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layout2/css/player.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jubuc.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/player.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tetris.js') }}"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+     {% block scripts %}
+        {{ moment.include_jquery() }}
+        {{ moment.include_moment() }}
+        {{ pagedown.include_pagedown() }}
+    {% endblock %}
+    <title>JUBUC - </title>
+</head>
+<body>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3&appId=206574139389252&autoLogAppEvents=1"></script>
+    {% include 'core/nav.html' %}
+    
+    {% block content %}
+    {% endblock content %}
+
+    {% include 'core/footer.html' %}
+
+    <script>
+        $('#logo').addClass('animated bounceOutLeft');
+    </script>
+    
+  </body>

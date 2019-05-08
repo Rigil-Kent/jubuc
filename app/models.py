@@ -14,6 +14,8 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(64))
     email = db.Column(db.String(256))
     pass_hash = db.Column(db.String(128))
+    posts = db.relationship('Post', backref="author", lazy="dynamic")
+    shows = db.relationship('Show', backref="host", lazy="dynamic")
 
 
     def set_password(self, password):
@@ -80,3 +82,25 @@ class Audio(db.Model):
 class Active(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     track_id = db.Column(db.Integer, db.ForeignKey('audio.id'))
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(128), index=True)
+    slug = db.Column(db.String(128))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    featured_image = db.Column(db.String(256))
+    body = db.Column(db.Text)
+    
+class Show(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(128), index=True)
+    slug = db.Column(db.String(128))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    location = db.Column(db.String(256), index=True)
+    url = db.Column(db.String(256), index=True)
+    venue = db.Column(db.Text)
+    details = db.Column(db.Text)
+    featured_image = db.Column(db.String(256))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

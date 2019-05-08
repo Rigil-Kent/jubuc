@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:url" context="https://www.iamjubuc.com">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="DJ Jubuc Baltimore">
+    <meta property="og:description" content = "DJ Jubuc. Baltimore's leading DJ.">
+    <meta propert="og:image" content="">
+    <meta property="og:image:width" content="700">
+    <meta property="og:image:height" content="600">
+    <meta property="og:app_id" content="206574139389252">
+
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layout2/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layout2/css/player.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jubuc.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/player.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tetris.js') }}"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+     {% block scripts %}
+        {{ moment.include_jquery() }}
+        {{ moment.include_moment() }}
+        {{ pagedown.include_pagedown() }}
+    {% endblock %}
+    <title>JUBUC - </title>
+  </head>
+  <body>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3&appId=206574139389252&autoLogAppEvents=1"></script>
+
+  <!-- navigation -->
+  <nav role="navigation" class="navbar navbar-expand-lg fixed-top">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+        <span class="fa fa-bars"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbar">
+    <ul class="navbar-nav">
+        <li class="nav-item"><a  class="nav-link" href="" alt="" title=""><span class="fa fa-facebook"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-soundcloud"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-twitter"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-instagram"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-youtube"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-spotify"></span></a></li>
+    </ul>
+
+    <div class="col d-none d-lg-block" id="player">
+        <audio id="music" preload="true">
+          {% if track %}
+
+          <source src="{{ url_for('static', filename='uploads/audio/' + track.audio.file) }}">
+
+          {% else %}
+          <source src="http://www.alexkatz.me/codepen/music/interlude.mp3">
+          <source src="http://www.alexkatz.me/codepen/music/interlude.ogg">
+          {% endif %}
+        </audio>
+
+        <div id="audioplayer" class="col">
+            <span id="pButton" class="fa fa-play-circle-o fa-2x"></span>
+            <div id="timeline">
+                  <div id="playhead" class="border border-jubuc"></div><small>{{ track.audio.name }}<span id="duration"></span><span id="currenttime"></span></small>
+            </div>
+        </div>
+    </div>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a class="nav-link" id="about-button" href="#about" alt="" title="">About</a></li>
+      <li class="nav-item"><a class="nav-link" role="button" aria-expanded="false" area-controls="events" href="#events" alt="" title="">Shows</a></li>
+      <li class="nav-item"><a class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" area-controls="media" href="#media" alt="" title="">News</a></li>
+    </ul>
+    </div>
+  </nav>
+
+<div class="container-fluid jubuc-background-clear">
+</div>
+  <div class="container mt-5 text-danger">
+      <h2 class="border-bottom border-secondary pt-1">&lt; Back to blog</h2>
+      <div class="row">
+          <div class="col-md-7">
+              <h2 class="display-4 mb-0 pb-0">{{ post.title }}</h2>
+              <h5 class="text-muted">{{ moment(post.timestamp).format('LLLL')}}</h5>
+              <small>by {{ post.author.first_name }}</small>
+              <img class="img-fluid" src="{{ url_for('static', filename='uploads/posts/' + post.featured_image) }}" alt="{{ post.title }}" title="{{ post.title }}">
+
+              {{ post.body }}
+          </div>
+
+          <div class="col-md-4">
+              {% if next %}
+                  <a class="text-secondary" href="{{ url_for('blog_post', slug=next.slug) }}" alt="{{ next.title }}" title="{{ next.title }}">
+                      <h4 class="text-center">next article</h4>
+                <div class="card card-inverse card-info bg-danger">
+                    <img class="card-img-top" src="{{ url_for('static', filename='uploads/posts/' + next.featured_image) }}">
+                    <div class="card-block">
+                        <figure class="profile profile-inline">
+                            <img src="{% if next.author.avatar %}{{ url_for('static', filename='uploads/' + next.author.avatar) }}{% else %}https://picsum.photos/200/150/?random{% endif %}" class="profile-avatar" alt="">
+                        </figure>
+                        <h4 class="card-title text-white">{{ next.author.first_name }}</h4>
+                        <div class="card-text lead text-truncate">
+                          <h5><a class="text-white" href="{{ url_for('blog_post', slug=next.slug) }}" alt="{{ next.title }}" title="{{ next.title }}">{{ next.title }}</a></h5>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-danger text-white">
+                        <small>{{moment(next.timestamp).format('LL')}}</small>
+                  
+                    </div>
+                </div>
+                  </a>
+              {% endif %}
+
+              {% if prev %}
+                  <a class="text-secondary"  href="{{ url_for('blog_post', slug=prev.slug) }}" alt="{{ prev.title }}" title="{{ prev.title }}">
+                      <h4 class="text-center">Previous article</h4>
+                <div class="card card-inverse card-info bg-danger">
+                    <img class="card-img-top" src="{{ url_for('static', filename='uploads/posts/' + prev.featured_image) }}">
+                    <div class="card-block">
+                        <figure class="profile profile-inline">
+                            <img src="{% if prev.author.avatar %}{{ url_for('static', filename='uploads/' + prev.author.avatar) }}{% else %}https://picsum.photos/200/150/?random{% endif %}" class="profile-avatar" alt="">
+                        </figure>
+                        <h4 class="card-title text-white">{{ prev.author.first_name }}</h4>
+                        <div class="card-text lead text-truncate">
+                          <h5><a class="text-white" href="{{ url_for('blog_post', slug=prev.slug) }}" alt="{{ prev.title }}" title="{{ prev.title }}">{{ prev.title }}</a></h5>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-danger text-white">
+                        <small>{{moment(prev.timestamp).format('LL')}}</small>
+                  
+                    </div>
+                </div>
+                  </a>
+              {% endif %}
+          </div>
+      </div>
+
+  
+
+    <footer class="container-fluid text-center">
+      <div class="row">
+          <div class="col">
+              <p class="lead mb-0 pb-0">Copyright&copy; 2019, JUBUC</p>
+              <small>Site design: <a href="https://www.brizzle.dev">BrizzleDev</a></small>
+          </div>
+      </div>
+  </footer>
+</div>
+  <script>
+      $('#logo').addClass('animated bounceOutLeft');
+  </script>
+    
+  </body>

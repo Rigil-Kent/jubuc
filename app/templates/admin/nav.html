@@ -43,23 +43,23 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span class="fa fa-shopping-cart"></span>
-                            Products
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ url_for('admin_shows') }}">
                             <span class="fa fa-tasks"></span>
-                            Projects
+                            Shows
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ url_for('admin_posts') }}">
                             <span class="fa fa-clipboard"></span>
                             Posts
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span class="fa fa-shopping-cart"></span>
+                            Contacts
                         </a>
                     </li>
                 </ul>

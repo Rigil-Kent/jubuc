@@ -1,10 +1,11 @@
-from wtforms import SubmitField, StringField, BooleanField, PasswordField, TextAreaField, SelectField, FileField, RadioField, MultipleFileField
+from wtforms import SubmitField, StringField, BooleanField, PasswordField, TextAreaField, SelectField, FileField, RadioField, MultipleFileField, DateTimeField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 from flask_wtf import FlaskForm
 from app.models import Audio
 from wtforms import validators
 from wtforms.validators import DataRequired, EqualTo
 from wtforms.ext.sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
+from flask_pagedown.fields import PageDownField
 
 
 def audio_factory():
@@ -66,3 +67,19 @@ class AudioForm(FlaskForm):
 class PlayerForm(FlaskForm):
     active_track = QuerySelectField('Active Track ', query_factory=audio_factory, allow_blank=True, get_label="name")
     submit = SubmitField('Set Active Track')
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    featured_image = FileField('Feature Image')
+    body = PageDownField('Post', validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+
+class ShowForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    timestamp = DateTimeField('Date & Time', id="datepick", format='%m/%d/%Y %H:%M %p',validators=[DataRequired()])
+    location = StringField('Location', validators=[DataRequired()])
+    featured_image = FileField('Featured Image',)
+    url = StringField('Website')
+    details = StringField('Details')
+    submit = SubmitField('Submit')

@@ -1,0 +1,133 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
+        <h1 class="h2">shows</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#showAdminForm" role="button" aria-controls="#showAdminForm">New show</a></button>
+        </div>
+    </div>
+    
+
+    <div class="col collapse" id="showAdminForm">
+            <form action="" method="POST" enctype=multipart/form-data>
+                {{ form.hidden_tag() }}
+                <p class="form-group">
+                    {{ form.title.label }}
+                    {{ form.title(class="form-control")}}
+                    {% for error in form.title.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <div class="form-group">
+                    {{ form.timestamp.label }}
+                
+                    <div class="form-group">
+                        <div class="input-group date" id="timestamp" data-target-input="nearest">
+                            <input type="text" name="timestamp" class="form-control datetimepicker-input" data-target="#timestamp" value=""/>
+                            <div class="input-group-append" data-target="#timestamp" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                          $(function () {
+                              $('#timestamp').datetimepicker('date');
+                          });
+
+                          $('.datetimepicker-input').each(function() {
+                              var value = $(this).val();
+			                  $(this).datetimepicker({
+				                format: 'MM-DD-YYY HH:MM p',
+			                	date: value
+                    			});
+			                  $(this).val(value);
+                    		});
+
+                    </script>
+
+                    {% for error in form.timestamp.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+
+                <p class="form-group">
+                    {{ form.location.label }}
+                    {{ form.location(class="form-control")}}
+                    {% for error in form.location.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.url.label }}
+                    {{ form.url(class="form-control")}}
+                    {% for error in form.url.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.featured_image.label }}
+                    {{ form.featured_image(class="form-control-file")}}
+                    {% for error in form.featured_image.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    
+                    {{ form.details(class="form-control")}}
+                    {{ form.details.label(class="form-check-label") }}
+                    {% for error in form.details.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.submit(class="btn btn-success") }}
+                </p>
+            
+            </form>
+    </div>
+        <h2>All shows</h2>
+    <section class="table-responsive">
+
+            <table class="table table-striped">
+                <thead>
+                    <th>showID</th>
+                    <th>Title</th>
+                    <th>Host</th>
+                    <th>Timestamp</th>
+                    <th>Featured Image</th>
+                    <th>Body</th>
+                    <th>Delete?</th>
+                </thead>
+
+                <tbody>
+                    {% if shows %}
+                    {% for show in shows %}
+                    <tr>
+                    
+                    <td>{{ show.id }}</td>
+                    <td>{{ show.title }}</td>
+                    <td>{{ show.host.username }}</td>
+                    <td>{{ show.timestamp }}</td>
+                    <td>{{ show.featured_image }}</td>
+                    <td>{{ show.details }}</td>
+                    <td><a href="" class="btn btn-danger">&times;</a></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    
+                </tbody>
+
+            </table>
+
+
+    </section>
+
+</main>
+{% endblock content %}

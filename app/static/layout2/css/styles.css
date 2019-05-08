@@ -55,6 +55,27 @@ nav a:hover {
     background-size: cover;
 }
 
+.card-img-top img {
+    max-height: 165px;
+}
+
+.jubuc-background {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+.jubuc-background-clear::after {
+    background-image: url('../images/jubuc-background.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    content: "";
+    opacity: 0.1;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
 
 .info-container {
     position: relative;

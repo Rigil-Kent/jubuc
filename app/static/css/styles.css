@@ -70,11 +70,12 @@ nav a:hover {
 .jubuc-background {
     background-image: url('../images/jubuc-background.jpg');
     background-color: rgba(0, 0, 0, .2);
-    height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+
 
 .nav-brand img {
     position: absolute;
@@ -117,8 +118,9 @@ nav a:hover {
     opacity: 0.6;
 }
 
-
-
+.blog-post:hover {
+    box-shadow: 1px 3px 10px 0 rgba(0, 0, 0, 0.10);
+}
 
 .modal-content, .caption {
     animation-name: zoom;
@@ -130,5 +132,4 @@ nav a:hover {
     from {transform: scale(0)}
     to {transform: scale(1)}
 }
-
 
