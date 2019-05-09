@@ -68,7 +68,7 @@ def login():
         login_user(user)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index')
+            next_page = url_for('admin_dashboard')
         return redirect(next_page)
     return render_template('login.html', form=form)
 
@@ -83,9 +83,10 @@ def logout():
 def index():
     admin = db.session.query(Administrator).count()
     track = db.session.query(Active).get(1)
-    posts = db.session.query(Post).all()
-    shows = db.session.query(Show).all()
-
+    posts = db.session.query(Post).order_by(Post.id.desc()).limit(4)
+    shows = Show.query.filter(Show.timestamp >= date.today()).order_by(Show.timestamp.desc()).limit(4)
+    print(shows.count())
+    
     if admin == 0:
         return redirect(url_for('admin_welcome'))
 
@@ -101,7 +102,7 @@ def about():
 @app.route('/shows')
 def shows():
     track = db.session.query(Active).get(1)
-    shows = Show.query.filter(Show.timestamp >= date.today())
+    shows = Show.query.filter(Show.timestamp >= date.today()).order_by(Show.timestamp.desc()).limit(10)
     past_shows = Show.query.filter(Show.timestamp <= date.today())
     return render_template('shows.html', track=track, shows=shows, past_shows=past_shows)
 
@@ -138,17 +139,14 @@ def photos():
 
 
 #region ADMINISTRATION
+@login_required
 @app.route('/admin')
 def admin_dashboard():
     u_count = User.query.count()
     users = db.session.query(User).all()
     return render_template('admin/index.html', u_count=u_count, users=users)
 
-
-@app.route('/admin/setup')
-def admin_setup():
-    return render_template('admin/setup.html')
-
+@login_required
 @app.route('/admin/welcome', methods=accepted_methods)
 def admin_welcome():
     form = AdminForm()
@@ -193,12 +191,12 @@ def admin_welcome():
 
         db.session.commit()
 
-        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dimiss="alert">&times;</button> Administrative settings saved. User {} has been created.'.format(user.username))
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dimiss="alert">&times;</button> Administrative settings saved. User {} has been created.</div>'.format(user.username))
         flash(message)
         return redirect(url_for('login'))
     return render_template('admin/welcome.html', form=form)
 
-
+@login_required
 @app.route('/admin/audio', methods=accepted_methods)
 def admin_audio():
     form = PlayerForm()
@@ -241,6 +239,7 @@ def admin_audio():
 
     return render_template('admin/audio.html', form=form, upform=upform, tracks=tracks)
 
+@login_required
 @app.route('/admin/posts', methods=accepted_methods)
 def admin_posts():
     form = PostForm()
@@ -265,6 +264,7 @@ def admin_posts():
         return redirect(url_for('admin_posts'))
     return render_template('admin/posts.html', form=form, posts=posts)
 
+@login_required
 @app.route('/admin/shows', methods=accepted_methods)
 def admin_shows():
     form = ShowForm()
@@ -278,7 +278,7 @@ def admin_shows():
         show.user_id = current_user.id
         show.timestamp = form.timestamp.data
         show.location = form.location.data
-        show.url = form.url.data4
+        show.url = form.url.data
         show.details = form.details.data
         if form.url.data is not None:
             show.venue = '<a href="{}" alt="{}" title="{}">{}</a>'.format(form.url.data, form.title.data, form.title.data, form.title.data)

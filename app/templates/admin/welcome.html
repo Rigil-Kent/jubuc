@@ -1,5 +1,12 @@
 {% extends 'admin/base.html' %}
 {% block content %}
+{% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+                  {{ message }}
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <section class="container">
         <div class="row">

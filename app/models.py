@@ -16,6 +16,7 @@ class User(UserMixin, db.Model):
     pass_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref="author", lazy="dynamic")
     shows = db.relationship('Show', backref="host", lazy="dynamic")
+    photos = db.relationship('Photo', backref="owner", lazy="dynamic")
 
 
     def set_password(self, password):
@@ -103,4 +104,11 @@ class Show(db.Model):
     venue = db.Column(db.Text)
     details = db.Column(db.Text)
     featured_image = db.Column(db.String(256))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+class Photo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), index=True)
+    file = db.Column(db.String(256))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
