@@ -3,8 +3,8 @@ import string
 from datetime import datetime, timedelta, date
 from app import app, db
 from flask import render_template, redirect, flash, session, request, send_from_directory, url_for
-from app.models import Administrator, User, Audio, Active, Post, Show, Photo
-from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm
+from app.models import Administrator, User, Audio, Active, Post, Show, Photo, Contact
+from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm, UserForm, ContactForm
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import Markup
 from werkzeug.urls import url_parse
@@ -321,6 +321,7 @@ def admin_shows():
 @app.route('/admin/photos', methods=accepted_methods)
 def admin_photos():
     form = PhotoForm()
+    photos = db.session.query(Photo).all()
 
     if form.validate_on_submit():
         photo = Photo()
@@ -334,5 +335,119 @@ def admin_photos():
         message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Photo added successfully</div>')
         flash(message)
         return redirect(url_for('admin_photos'))
-    return render_template('admin/photos.html', form=form)
+    return render_template('admin/photos.html', form=form, photos=photos)
+
+@login_required
+@app.route('/admin/users', methods=accepted_methods)
+def admin_users():
+    form = UserForm()
+
+    if form.validate_on_submit():
+        user =  User()
+        user.username = form.username.data
+        user.email = form.email.data
+        user.first_name = form.first_name.data
+        user.last_name = form.last_name.data
+        user.pass_hash = user.set_password(form.password.data)
+        
+        db.session.add(user)
+        db.session.commit()
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">User <strong>{}</strong> added.'.format(user.username))
+        flask(message)
+        return redirect(url_for('admin_users'))
+    return render_template('admin/user.html', form=form)
+
+@login_required
+@app.route('/admin/contacts', methods=accepted_methods)
+def admin_contacts():
+    form = ContactForm()
+    contacts = db.session.query(Contact).all()
+
+    if form.validate_on_submit():
+        contact = Contact()
+        contact.name = form.name.data
+        contact.email = form.email.data
+        contact.phone = form.phone.data
+        contact.subject = form.subject.data
+        contact.message = form.message.data
+
+        db.session.add(contact)
+        db.session.commit()
+
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Contact added successfully for {}</div>'.format(contact.name))
+        flash(message)
+        return redirect(url_for('admin_contacts'))
+    return render_template('admin/contact.html', form=form, contacts=contacts)
+
+#region Delete Ops
+@login_required
+@app.route('/admin/delete/user/<username>')
+def delete_user(username):
+    user = db.session.query(User).filter_by(username = username).first_or_404()
+    message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>User <strong>{}</strong> deleted</div>'.format(username))
+    db.session.delete(user)
+    db.session.commit()
+    flash(message)
+    return redirect(url_for('admin_users'))
+
+@login_required
+@app.route('/admin/delete/track/<track>')
+def delete_track(track):
+    track = db.session.query(Audio).filter_by(name=track).first_or_404()
+    message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Track <strong>{}</strong> deleted</div>'.format(track.name))
+    os.remove(os.path.join(app.config['AUDIO'], track.album_art))
+    os.remove(os.path.join(app.config['AUDIO'], track.file))
+
+    db.session.delete(track)
+    db.session.commit()
+    flash(message)
+    return redirect(url_for('admin_audio'))
+
+@login_required
+@app.route('/admin/delete/post/<title>')
+def delete_post(title):
+    post = db.session.query(Post).filter_by(title=title).first_or_404()
+    message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Post <strong>{}</strong> deleted</div>'.format(post.title))
+    if post.featured_image:
+        os.remove(os.path.join(app.config['POSTS'], post.featured_image))
+    db.session.delete(post)
+    db.session.commit()
+    flash(message)
+    return redirect(url_for('admin_posts'))
+
+@login_required
+@app.route('/admin/delete/show/<title>')
+def delete_show(title):
+    show = db.session.query(Show).filter_by(title=title).first_or_404()
+    message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Show <strong>{}</strong> deleted</div>'.format(show.title))
+    if show.featured_image:
+        os.remove(os.path.join(app.config['POSTS'], show.featured_image))
+    
+    db.session.delete(show)
+    db.session.commit()
+    flash(message)
+    return redirect(url_for('admin_shows'))
+
+@login_required
+@app.route('/admin/delete/photo/<name>')
+def delete_photo(name):
+    photo = db.session.query(Photo).filter_by(name=name).first_or_404()
+    message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Photo <strong>{}</strong> deleted</div>'.format(photo.name))
+    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], photo.file))
+    db.session.delete(photo)
+    db.session.commit()
+    flash(message)
+    return redirect(url_for('admin_photos'))
+
+@app.route('/admin/delete/contact/<id>')
+def delete_contact(id):
+    contact = db.session.query(Contact).filter_by(id=id).first_or_404()
+    message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Contact <strong>{}</strong> deleted</div>'.format(contact.name))
+    db.session.delete(contact)
+    db.session.commit()
+    flash(message)
+    return redirect(url_for('admin_contacts'))
+#endregion Delete Ops
+
+
 #endregion

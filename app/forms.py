@@ -56,6 +56,7 @@ class UserForm(FlaskForm):
     instagram = StringField('Instagram')
     bio = TextAreaField('About Me')
     avatar = FileField('Avatar')
+    submit = SubmitField('Add')
 
 class AudioForm(FlaskForm):
     name = StringField('Track Title', validators=[DataRequired()])
@@ -89,3 +90,11 @@ class PhotoForm(FlaskForm):
     caption = StringField('Caption', validators=[DataRequired()])
     file = FileField('Photo', validators=[DataRequired()])
     submit = SubmitField('Upload')
+
+class ContactForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    phone = StringField('Phone', validators=[DataRequired()])
+    subject = StringField('Subject', validators=[DataRequired()])
+    message = TextAreaField('Message', validators=[DataRequired()])
+    submit = SubmitField('Send Message')

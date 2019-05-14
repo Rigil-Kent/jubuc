@@ -1,0 +1,122 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+                  {{ message }}
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
+        <h1 class="h2">Users</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#UserAdminForm" role="button" aria-controls="#UserAdminForm">New User</a></button>
+        </div>
+    </div>
+    
+
+    <div class="col collapse" id="UserAdminForm">
+            <form action="{{ url_for('admin_users') }}" method="POST" enctype=multipart/form-data>
+                {{ form.hidden_tag() }}
+                <p class="form-group">
+                    {{ form.first_name.label }}
+                    {{ form.first_name(class="form-control")}}
+                    {% for error in form.first_name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.last_name.label }}
+                    {{ form.last_name(class="form-control")}}
+                    {% for error in form.last_name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.username.label }}
+                    {{ form.username(class="form-control")}}
+                    {% for error in form.username.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email(class="form-control")}}
+                    {% for error in form.email.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.password.label }}
+                    {{ form.password(class="form-control")}}
+                    {% for error in form.password.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.confirm.label }}
+                    {{ form.confirm(class="form-control")}}
+                    {% for error in form.confirm.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <!--
+                <p class="form-group">
+                    {{ form.avatar.label }}
+                    {{ form.avatar(class="form-control-file")}}
+                    {% for error in form.avatar.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+                -->
+
+
+                <p class="form-group">
+                    {{ form.submit(class="btn btn-success") }}
+                </p>
+            
+            </form>
+    </div>
+    
+    <h2>All Users</h2>
+
+    <section class="table-responsive">
+
+            <table class="table table-striped">
+                <thead>
+                    <th></th>
+                    <th>UserID</th>
+                    <th>Title</th>
+                    <th>File</th>
+                    <th>Delete?</th>
+                </thead>
+
+                <tbody>
+                    {% if users %}
+                    {% for user in users %}
+                    <tr>
+                    <td><img class="img-thumbnail" src="{{ url_for('static', filename='uploads/'+ User.file) }}" width="15%"></td>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.file }}</td>
+                    <td><a href="{{ url_for('delete_user', username=user.username) }}" class="btn btn-danger">&times;</a></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    
+                </tbody>
+
+            </table>
+
+
+    </section>
+
+</main>
+{% endblock content %}

@@ -1,0 +1,110 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+                  {{ message }}
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
+        <h1 class="h2">contacts</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#contactAdminForm" role="button" aria-controls="#contactAdminForm">New contact</a></button>
+        </div>
+    </div>
+    
+
+    <div class="col collapse" id="contactAdminForm">
+            <form action="{{ url_for('admin_contacts') }}" method="POST" enctype=multipart/form-data>
+                {{ form.hidden_tag() }}
+                <p class="form-group">
+                    {{ form.name.label }}
+                    {{ form.name(class="form-control")}}
+                    {% for error in form.name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email(class="form-control")}}
+                    {% for error in form.email.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.phone.label }}
+                    {{ form.phone(class="form-control")}}
+                    {% for error in form.phone.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.subject.label }}
+                    {{ form.subject(class="form-control")}}
+                    {% for error in form.subject.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.message.label }}
+                    {{ form.message(class="form-control")}}
+                    {% for error in form.message.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+
+                <p class="form-group">
+                    {{ form.submit(class="btn btn-success") }}
+                </p>
+            
+            </form>
+    </div>
+    
+    <h2>All Contacts</h2>
+
+    <section class="table-responsive">
+
+            <table class="table table-striped">
+                <thead>
+                    <th>ContactID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Delete?</th>
+                </thead>
+
+                <tbody>
+                    {% if contacts %}
+                    {% for contact in contacts %}
+                    <tr>
+                    <td>{{ contact.id }}</td>
+                    <td>{{ contact.name }}</td>
+                    <td>{{ contact.timestamp }}</td>
+                    <td>{{ contact.email }}</td>
+                    <td>{{ contact.phone }}</td>
+                    <td>{{ contact.subject }}</td>
+                    <td>{{ contact.message }}</td>
+                    <td><a href="{{ url_for('delete_contact', id=contact.id) }}" class="btn btn-danger">&times;</a></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    
+                </tbody>
+
+            </table>
+
+
+    </section>
+
+</main>
+{% endblock content %}

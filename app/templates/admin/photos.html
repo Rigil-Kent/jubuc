@@ -56,6 +56,7 @@
 
             <table class="table table-striped">
                 <thead>
+                    <th></th>
                     <th>PhotoID</th>
                     <th>Title</th>
                     <th>File</th>
@@ -66,11 +67,11 @@
                     {% if photos %}
                     {% for photo in photos %}
                     <tr>
-                    
+                    <td><img class="img-thumbnail" src="{{ url_for('static', filename='uploads/'+ photo.file) }}" width="15%"></td>
                     <td>{{ photo.id }}</td>
                     <td>{{ photo.name }}</td>
                     <td>{{ photo.file }}</td>
-                    <td><a href="" class="btn btn-danger">&times;</a></td>
+                    <td><a href="{{ url_for('delete_photo', name=photo.name) }}" class="btn btn-danger">&times;</a></td>
                     </tr>
                     {% endfor %}
                     {% endif %}

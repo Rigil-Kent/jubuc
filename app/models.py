@@ -123,3 +123,11 @@ class Photo(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     caption = db.Column(db.String(256))
 
+class Contact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), index=True)
+    email = db.Column(db.String(256), index=True)
+    phone = db.Column(db.String(14), index=True)
+    subject = db.Column(db.String(256), index=True)
+    message = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
