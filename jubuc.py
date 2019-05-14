@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import User, Administrator, Audio, Active, Post, Show
+from app.models import User, Administrator, Audio, Active, Post, Show, Photo
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -13,7 +13,8 @@ def make_shell_context():
         'Audio': Audio,
         'Active, Post': Active, 
         'Post': Post,
-        'Show': Show
+        'Show': Show,
+        'Photo': Photo
     }
 
 

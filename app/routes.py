@@ -3,8 +3,8 @@ import string
 from datetime import datetime, timedelta, date
 from app import app, db
 from flask import render_template, redirect, flash, session, request, send_from_directory, url_for
-from app.models import Administrator, User, Audio, Active, Post, Show
-from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PostForm, ShowForm
+from app.models import Administrator, User, Audio, Active, Post, Show, Photo
+from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import Markup
 from werkzeug.urls import url_parse
@@ -45,7 +45,7 @@ def upload_file(filerequest, type=None):
             flash(message)
             return filename
         except Exception as e:
-            message = Markup('<div class="alert alert-dagner alert-dismissible"><button type="button" class="close">&times;</button>File upload failed: {}'.format(e))
+            message = Markup('<div class="alert alert-dagner alert-dismissible"><button type="button" class="close">&times;</button>File upload failed: {}</div>'.format(e))
             flash(message)
             return redirect(url_for(request.url))
 
@@ -85,26 +85,49 @@ def index():
     track = db.session.query(Active).get(1)
     posts = db.session.query(Post).order_by(Post.id.desc()).limit(4)
     shows = Show.query.filter(Show.timestamp >= date.today()).order_by(Show.timestamp.desc()).limit(4)
-    print(shows.count())
+    photos = db.session.query(Photo).order_by(Photo.timestamp.desc()).limit(4)
     
     if admin == 0:
         return redirect(url_for('admin_welcome'))
 
-    return render_template('index.html', track=track, posts=posts, shows=shows)
+    admin_settings = db.session.query(Administrator).get(1)
+
+    return render_template('index.html', track=track, posts=posts, shows=shows, photos=photos, admin_settings=admin_settings)
 
 @app.route('/about')
 def about():
     track = db.session.query(Active).get(1)
     post = db.session.query(Post).order_by(Post.id.desc()).first()
-    return render_template('about.html', post=post, track=track)
+    admin_settings = db.session.query(Administrator).get(1)
+    return render_template('about.html', admin_settings=admin_settings, post=post, track=track)
 
 
 @app.route('/shows')
 def shows():
+    form = ShowForm()
     track = db.session.query(Active).get(1)
     shows = Show.query.filter(Show.timestamp >= date.today()).order_by(Show.timestamp.desc()).limit(10)
-    past_shows = Show.query.filter(Show.timestamp <= date.today())
-    return render_template('shows.html', track=track, shows=shows, past_shows=past_shows)
+    past_shows = Show.query.filter(Show.timestamp <= date.today()).order_by(Show.timestamp.desc()).limit(5)
+    admin_settings = db.session.query(Administrator).get(1)
+
+    if form.validate_on_submit():
+        show = Show()
+        show.title = form.title.data
+        show.timestamp = form.timestamp.data
+        show.location = form.location.data
+        show.url = form.url.data
+        show.details = form.details.data
+
+        if form.featured_image.data is not None:
+            show.featured_image = upload_file('featured_image', type="post")
+
+        db.session.add(show)
+        db.session.commit()
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Show requested! Jubuc will contact you for details. Thank you.</div>')
+        flash(message)
+        return redirect(url_for('index'))
+
+    return render_template('shows.html', track=track, admin_settings=admin_settings, shows=shows, past_shows=past_shows, form=form)
 
 
 @app.route('/blog/<slug>')
@@ -158,8 +181,6 @@ def admin_welcome():
         admin.last_name = form.last_name.data
         admin.email = form.email.data
         admin.set_password(form.password.data)
-        print(form.password.data)
-        print(admin.pass_hash)
         admin.site_title = form.site_title.data
         admin.site_logo_image = form.site_logo_image.data
         admin.site_logo_text = form.site_logo_text.data
@@ -209,7 +230,6 @@ def admin_audio():
             pass
         else:
             active = Active.query.get(1)
-            print(active)
 
             if active is None:
                 active = Active()
@@ -296,4 +316,23 @@ def admin_shows():
         return redirect(url_for('admin_shows'))
 
     return render_template('admin/shows.html', form=form, shows=shows)
+
+@login_required
+@app.route('/admin/photos', methods=accepted_methods)
+def admin_photos():
+    form = PhotoForm()
+
+    if form.validate_on_submit():
+        photo = Photo()
+        photo.name = form.name.data
+        photo.caption = form.caption.data
+        photo.file = upload_file('file')
+        photo.user_id = current_user.id
+
+        db.session.add(photo)
+        db.session.commit()
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Photo added successfully</div>')
+        flash(message)
+        return redirect(url_for('admin_photos'))
+    return render_template('admin/photos.html', form=form)
 #endregion

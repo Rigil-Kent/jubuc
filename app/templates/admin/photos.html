@@ -9,40 +9,39 @@
           {% endif %}
       {% endwith %}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
-        <h1 class="h2">Posts</h1>
+        <h1 class="h2">Photos</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#postAdminForm" role="button" aria-controls="#postAdminForm">New Post</a></button>
+            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#photoAdminForm" role="button" aria-controls="#photoAdminForm">New photo</a></button>
         </div>
     </div>
     
 
-    <div class="col collapse" id="postAdminForm">
-            <form action="" method="POST" enctype=multipart/form-data>
+    <div class="col collapse" id="photoAdminForm">
+            <form action="{{ url_for('admin_photos') }}" method="POST" enctype=multipart/form-data>
                 {{ form.hidden_tag() }}
                 <p class="form-group">
-                    {{ form.title.label }}
-                    {{ form.title(class="form-control")}}
-                    {% for error in form.title.errors %}
+                    {{ form.name.label }}
+                    {{ form.name(class="form-control")}}
+                    {% for error in form.name.errors %}
                         {{ error }}
                     {% endfor %}
                 </p>
 
                 <p class="form-group">
-                    {{ form.featured_image.label }}
-                    {{ form.featured_image(class="form-control-file")}}
-                    {% for error in form.featured_image.errors %}
+                    {{ form.caption.label }}
+                    {{ form.caption(class="form-control")}}
+                    {% for error in form.caption.errors %}
+                        {{ error }}
+                    {% endfor %}
+
+                <p class="form-group">
+                    {{ form.file.label }}
+                    {{ form.file(class="form-control-file")}}
+                    {% for error in form.file.errors %}
                         {{ error }}
                     {% endfor %}
                 </p>
 
-                <p class="form-group">
-                    
-                    {{ form.body(class="form-control")}}
-                    {{ form.body.label(class="form-check-label") }}
-                    {% for error in form.body.errors %}
-                        {{ error }}
-                    {% endfor %}
-                </p>
 
                 <p class="form-group">
                     {{ form.submit(class="btn btn-success") }}
@@ -50,31 +49,27 @@
             
             </form>
     </div>
-        <h2>All Posts</h2>
+    
+    <h2>All Photos</h2>
+
     <section class="table-responsive">
 
             <table class="table table-striped">
                 <thead>
-                    <th>PostID</th>
+                    <th>PhotoID</th>
                     <th>Title</th>
-                    <th>Author</th>
-                    <th>Timestamp</th>
-                    <th>Featured Image</th>
-                    <th>Body</th>
+                    <th>File</th>
                     <th>Delete?</th>
                 </thead>
 
                 <tbody>
-                    {% if posts %}
-                    {% for post in posts %}
+                    {% if photos %}
+                    {% for photo in photos %}
                     <tr>
                     
-                    <td>{{ post.id }}</td>
-                    <td>{{ post.title }}</td>
-                    <td>{{ post.author.username }}</td>
-                    <td>{{ post.timestamp }}</td>
-                    <td>{{ post.featured_image }}</td>
-                    <td>{{ post.body }}</td>
+                    <td>{{ photo.id }}</td>
+                    <td>{{ photo.name }}</td>
+                    <td>{{ photo.file }}</td>
                     <td><a href="" class="btn btn-danger">&times;</a></td>
                     </tr>
                     {% endfor %}

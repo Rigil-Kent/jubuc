@@ -83,3 +83,9 @@ class ShowForm(FlaskForm):
     url = StringField('Website')
     details = StringField('Details')
     submit = SubmitField('Submit')
+
+class PhotoForm(FlaskForm):
+    name = StringField('Title', validators=[DataRequired()])
+    caption = StringField('Caption', validators=[DataRequired()])
+    file = FileField('Photo', validators=[DataRequired()])
+    submit = SubmitField('Upload')

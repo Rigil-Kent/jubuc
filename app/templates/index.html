@@ -1,95 +1,11 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta property="og:url" context="https://www.iamjubuc.com">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="DJ Jubuc Baltimore">
-    <meta property="og:description" content = "DJ Jubuc. Baltimore's leading DJ.">
-    <meta propert="og:image" content="">
-    <meta property="og:image:width" content="700">
-    <meta property="og:image:height" content="600">
-    <meta property="og:app_id" content="206574139389252">
-
-
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='layout2/css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='layout2/css/player.css') }}">
-    <script type="text/javascript" src="{{ url_for('static', filename='js/jubuc.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/player.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/tetris.js') }}"></script>
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
-     {% block scripts %}
-        {{ moment.include_jquery() }}
-        {{ moment.include_moment() }}
-        {{ pagedown.include_pagedown() }}
-    {% endblock %}
-    <title>JUBUC - </title>
-  </head>
-  <body>
-  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3&appId=206574139389252&autoLogAppEvents=1"></script>
-
-  <!-- navigation -->
-  <nav role="navigation" class="navbar navbar-expand-lg fixed-top">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
-        <span class="fa fa-bars"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbar">
-    <ul class="navbar-nav">
-        <li class="nav-item"><a  class="nav-link" href="" alt="" title=""><span class="fa fa-facebook"></span></a></li>
-        <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-soundcloud"></span></a></li>
-        <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-twitter"></span></a></li>
-        <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-instagram"></span></a></li>
-        <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-youtube"></span></a></li>
-        <li class="nav-item"><a class="nav-link" href="" alt="" title=""><span class="fa fa-spotify"></span></a></li>
-    </ul>
-
-    <div class="col d-none d-lg-block" id="player">
-        <audio id="music" preload="true">
-          {% if track %}
-
-          <source src="{{ url_for('static', filename='uploads/audio/' + track.audio.file) }}">
-
-          {% else %}
-          <source src="http://www.alexkatz.me/codepen/music/interlude.mp3">
-          <source src="http://www.alexkatz.me/codepen/music/interlude.ogg">
-          {% endif %}
-        </audio>
-
-        <div id="audioplayer" class="col">
-            <span id="pButton" class="fa fa-play-circle-o fa-2x"></span>
-            <div id="timeline">
-                  <div id="playhead" class="border border-jubuc"></div><small>{% if track %}{{ track.audio.name }}{% endif %}<span id="duration"></span><span id="currenttime"></span></small>
-            </div>
-        </div>
-    </div>
-
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item"><a class="nav-link" id="about-button" href="{{ url_for('index') }}" alt="" title="">Home</a></li>
-      <li class="nav-item"><a class="nav-link" id="about-button" href="{{ url_for('about') }}" alt="" title="">About</a></li>
-      <li class="nav-item"><a class="nav-link" role="button" aria-expanded="false" area-controls="events" href="{{ url_for('shows') }}" alt="" title="">Shows</a></li>
-      <li class="nav-item"><a class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" area-controls="media" href="{{ url_for('index') }}" alt="" title="">News</a></li>
-    </ul>
-    </div>
-  </nav>
-
-
+{% extends 'core/base.html' %}
+{% block content %}
   <main class="container-fluid px-0 px-0 text-center text-white">
       <section class="row jubuc-background pt-3">
           <div class="col px-5 mt-5">
-              <img src="{{ url_for('static', filename='images/jubuc-logo.png') }}" class="pl-5" id="logo" width="50%">
-              <h1 class="display-1">Lorem ipsum dolor sit amet</h1>
-              <h3 class="text-mute">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
+              <img src="{% if admin_settings.site_logo_image %}{{ url_for('static', filename='images/' + admin_settings.site_logo_image) }}{% else %}{{ url_for('static', filename='images/jubuc-logo.png') }}{% endif %}" class="pl-5" id="logo" width="50%">
+              <h1 class="display-1">{% if admin_settings.jumbotron_header != None  %}{{ admin_settings.jumbotron_header }}{% else %}Lorem ipsum dolor sit amet{% endif %}</h1>
+              <h3 class="text-mute">{% if admin_settings.jumbotron_subheader != None %}{{ admin_settings.jumbotron_subheader }}{% else %}Lorem ipsum dolor sit amet, consectetur adipiscing elit{% endif %}</h3>
               <a class="btn btn-danger mb-4" data-toggle="collapse" role="buton" aria-expanded="false" href="#bookings">Book Jubuc</a>
           </div>
       </section>
@@ -123,57 +39,30 @@
   <section id="about-modal" class="container text-center h-50 pt-4">
       <div class="row ">
           <div class="col">
-              <h1>I AM JUBUC</h1>
-              <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <h1>{% if admin_settings.desc_header != None %}{{ admin_settings.desc_header }}{% else %}I AM JUBUC{% endif %}</h1>
+              <p class="lead">{% if admin_settings.desc_details != None %}{{ admin_settings.desc_details}}{% else %}Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.{% endif %}</p>
           </div>
       </div>
   </section>
 
   <section id="photos" class="container-fluid">
     <div class="row">
+      {% if photos %}
+      {% for photo in photos %}
       <div class="col-md-3 px-0 mx-0 ">
           <div class="info-container text-center">
-              <img class="img-fluid image" src="{{ url_for('static', filename='images/j6.jpg') }}">
+              <img class="img-fluid image" src="{% if photo.file != None %} {{ url_for('static', filename='uploads/' + photo.file) }}{% else %}{{ url_for('static', filename='images/j6.jpg') }}{% endif %}">
               <div class="img-info">
                 <div class="img-text px-3 py-3 text-center ">
-                    <p class="lead  text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p class="lead text-truncate">{% if photo.caption != None %} {{ photo.caption }}{% else %}Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.{% endif %}</p>
                 </div>
               </div>          
           </div>
       </div>
-
-      <div class="col-md-3 px-0 mx-0 ">
-          <div class="info-container text-center">
-              <img class="img-fluid image" src="{{ url_for('static', filename='images/j5.jpg') }}">
-              <div class="img-info">
-                <div class="img-text px-3 py-3 text-center">
-                    <p class="lead text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-              </div>          
-          </div>
-      </div>
-
-      <div class="col-md-3 px-0 mx-0 ">
-          <div class="info-container text-center">
-              <img class="img-fluid image" src="{{ url_for('static', filename='images/j4.jpg') }}">
-              <div class="img-info">
-                <div class="img-text px-3 py-3 text-center">
-                    <p class="lead text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-              </div>          
-          </div>
-      </div>
-
-      <div class="col-md-3 px-0 mx-0 ">
-          <div class="info-container text-center">
-              <img class="img-fluid image" src="{{ url_for('static', filename='images/j3.jpg') }}">
-              <div class="img-info">
-                <div class="img-text px-3 py-3 text-center">
-                    <p class="lead text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-              </div>          
-          </div>
-      </div>
+      {% endfor %}
+      {% else %}
+      <div class="alert alert-info alert-dismissible w-100 text-center"><button type="button" class="close" data-dismiss="alert">&times;</button>No photos uploaded</div>
+      {% endif %}
 
       </div>
   </section>
@@ -251,21 +140,4 @@
       
       </div>
   </section>
-
-  <hr class="hr">
-
-  <footer class="container-fluid text-center">
-      <div class="row">
-          <div class="col">
-              <p class="lead mb-0 pb-0">Copyright&copy; 2019, JUBUC</p>
-              <small>Site design: <a href="https://www.brizzle.dev">BrizzleDev</a></small>
-          </div>
-      </div>
-  </footer>
-
-  <script>
-      $('#logo').addClass('animated bounceOutLeft');
-  </script>
-    
-  </body>
-</html>
+  {% endblock %}

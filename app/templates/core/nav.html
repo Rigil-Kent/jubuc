@@ -1,0 +1,44 @@
+<!-- navigation -->
+  <nav role="navigation" class="navbar navbar-expand-lg fixed-top">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+        <span class="fa fa-bars"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbar">
+    <ul class="navbar-nav">
+        <li class="nav-item"><a  class="nav-link" href="{% if admin_settings.facebook != None %}{{ admin_settings.facebook }}{% else %}https://www.facebook.com{% endif %}" alt="Jubuc @ Facebook" title="Jubuc @ "><span class="fa fa-facebook"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="{% if admin_settings.soundcloud != None %}{{ admin_settings.soundcloud }}{% else %}https://www.soundcloud.com{% endif %}" alt="Jubuc @ Soundcloud" title="Jubuc @ Soundcloud"><span class="fa fa-soundcloud"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="{% if admin_settings.twitter != None %}{{ admin_settings.twitter }}{% else %}https://www.twitter.com{% endif %}" alt="Jubuc @ Twitter" title="Jubuc @ Twitter"><span class="fa fa-twitter"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="{% if admin_settings.instagram != None %}{{ admin_settings.instagram }}{% else %}https://www.instagram.com{% endif %}" alt="Jubuc @ Instagram" title="Jubuc @ Instagram"><span class="fa fa-instagram"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="{% if admin_settings.youtube != None %}{{ admin_settings.youtube }}{% else %}https://www.youtube.com{% endif %}" alt="Jubuc @ Youtube" title="Jubuc @ Youtube"><span class="fa fa-youtube"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="{% if admin_settings.spotify != None %}{{ admin_settings.spotify }}{% else %}https://www.spotify.com{% endif %}" alt="Jubuc @ Spotify" title="Jubuc @ Spotify"><span class="fa fa-spotify"></span></a></li>
+    </ul>
+
+    <div class="col d-none d-lg-block" id="player">
+        <audio id="music" preload="true">
+          {% if track %}
+
+          <source src="{{ url_for('static', filename='uploads/audio/' + track.audio.file) }}">
+
+          {% else %}
+          <source src="http://www.alexkatz.me/codepen/music/interlude.mp3">
+          <source src="http://www.alexkatz.me/codepen/music/interlude.ogg">
+          {% endif %}
+        </audio>
+
+        <div id="audioplayer" class="col">
+            <span id="pButton" class="fa fa-play-circle-o fa-2x"></span>
+            <div id="timeline">
+                  <div id="playhead" class="border border-jubuc"></div><small>{% if track %}{{ track.audio.name }}{% endif %}<span id="duration"></span><span id="currenttime"></span></small>
+            </div>
+        </div>
+    </div>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a class="nav-link" id="about-button" href="{{ url_for('index') }}" alt="" title="">Home</a></li>
+      <li class="nav-item"><a class="nav-link" id="about-button" href="{{ url_for('about') }}" alt="" title="">About</a></li>
+      <li class="nav-item"><a class="nav-link" role="button" aria-expanded="false" area-controls="events" href="{{ url_for('shows') }}" alt="" title="">Shows</a></li>
+      <li class="nav-item"><a class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" area-controls="media" href="{{ url_for('index') }}" alt="" title="">News</a></li>
+    </ul>
+    </div>
+  </nav>

@@ -45,9 +45,18 @@ class Administrator(db.Model):
     site_logo_text = db.Column(db.String(28))
     site_logo_image = db.Column(db.String(256))
     jumbotron_image = db.Column(db.String(256))
+    jumbotron_header = db.Column(db.String(64))
+    jumbotron_subheader = db.Column(db.String(64))
+    desc_header = db.Column(db.String(64))
+    desc_details = db.Column(db.Text)
     site_dominant_color = db.Column(db.String)
     site_accent_color = db.Column(db.String)
     site_background_color = db.Column(db.String)
+
+    # AboutPage settings
+    about_heading = db.Column(db.String(64))
+    about_image = db.Column(db.String(256))
+    about_detail = db.Column(db.Text)
 
     #social links
     facebook = db.Column(db.String(128))
@@ -112,3 +121,5 @@ class Photo(db.Model):
     file = db.Column(db.String(256))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    caption = db.Column(db.String(256))
+

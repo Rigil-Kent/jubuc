@@ -25,7 +25,7 @@
                     </li>
 
                     <li class="nav-item px-2 py-2">
-                       <small class="text-muted"> Logged in as: <strong>{{ current_user.username }}</strong></small>
+                       <small class="text-muted"> Logged in as: <strong>{{ current_user.first_name }}</strong></small>
                     </li>
 
                     <li class="nav-item">
@@ -53,6 +53,13 @@
                         <a class="nav-link" href="{{ url_for('admin_posts') }}">
                             <span class="fa fa-clipboard"></span>
                             Posts
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_photos') }}">
+                            <span class="fa fa-clipboard"></span>
+                            Photos
                         </a>
                     </li>
 
