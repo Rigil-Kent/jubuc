@@ -3,7 +3,7 @@
 
 <div class="container-fluid jubuc-background-clear">
 </div>
-  <div class="container mt-5 text-danger">
+  <div class="container mt-5 text-danger" style="{% if admin_settings.site_dominant_color != " " %}color: {{ admin_settings.site_dominant_color }} !important;{% else %}color: rgb(0, 255, 0); {% endif %}">
       <h2 class="border-bottom border-secondary pt-1">Come see Jubuc</h2>
       <div class="row">
           <div class="col-md-7">
@@ -25,7 +25,7 @@
                   <td>{{ moment(show.timestamp).format("LLLL") }}</td>
                   <td>{{ show.venue | safe}}</td>
                   <td>Baltimore, MD</td>
-                  <td><a class="btn btn-danger" type="button">RSVP</button></td>
+                  <td><a class="btn btn-danger" type="button" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }}; border:1px solid {{ admin_settings.site_dominant_color }} !important; color: {{ admin_settings.site_accent_color }} !important;{% if admin_settings.site_accent_color %}{{ admin_settings.site_accent_color }} {% endif %}{% else %}background-color: rgb(255, 0, 0); {% endif %}">RSVP</a></td>
               </tr>
               {% endfor %}
               {% endif %}
@@ -50,7 +50,7 @@
                   <td>{{ moment(past.timestamp).format("LLLL") }}</td>
                   <td>{{ past.venue | safe}}</td>
                   <td>Baltimore, MD</td>
-                  <td><a class="btn btn-danger" type="button">RSVP</button></td>
+                  <td><a class="btn" type="button" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }}; border:1px solid {{ admin_settings.site_dominant_color }} !important; {% if admin_settings.site_accent_color %}{{ admin_settings.site_accent_color }} {% endif %}{% else %}background-color: rgb(255, 0, 0); {% endif %}">RSVP</a></td>
               </tr>
               {% endfor %}
               {% endif %}
@@ -63,7 +63,7 @@
 
           </div>
 
-          <div class="col-md-4 bg-danger text-white">
+          <div class="col-md-4 text-white" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }};{% else %}background-color: rgb(255, 0, 0); {% endif %}">
               <form action="" method="POST">
                   <h2 class="text-center pt-1">Book a show</h2>
                   <div class="form-group">

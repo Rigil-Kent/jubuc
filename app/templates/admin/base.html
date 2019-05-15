@@ -42,15 +42,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
       {{ colorpicker.loader() }}
       {{ colorpicker.picker(ids=[".cp"], color_format='rgb', showAlpha='true') }}
-      <script type="text/javascript">
-      
-        
-      window.setTimeout(function() {
-        $("#alert_message").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
-        });
-      }, 3000);
-      </script>
 
       
     {% include 'admin/footer.html' %}

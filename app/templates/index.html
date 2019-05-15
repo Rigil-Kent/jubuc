@@ -6,12 +6,12 @@
               <img src="{% if admin_settings.site_logo_image %}{{ url_for('static', filename='images/' + admin_settings.site_logo_image) }}{% else %}{{ url_for('static', filename='images/jubuc-logo.png') }}{% endif %}" class="pl-5" id="logo" width="50%">
               <h1 class="display-1">{% if admin_settings.jumbotron_header != None  %}{{ admin_settings.jumbotron_header }}{% else %}Lorem ipsum dolor sit amet{% endif %}</h1>
               <h3 class="text-mute">{% if admin_settings.jumbotron_subheader != None %}{{ admin_settings.jumbotron_subheader }}{% else %}Lorem ipsum dolor sit amet, consectetur adipiscing elit{% endif %}</h3>
-              <a class="btn btn-danger mb-4" data-toggle="collapse" role="buton" aria-expanded="false" href="#bookings">Book Jubuc</a>
+              <a class="btn btn-danger mb-4" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }}; border:1px solid {{ admin_settings.site_dominant_color }} !important; {% if admin_settings.site_accent_color %}{{ admin_settings.site_accent_color }} {% endif %}{% else %}background-color: rgb(255, 0, 0); {% endif %}" data-toggle="collapse" role="buton" aria-expanded="false" href="#bookings">Book Jubuc</a>
           </div>
       </section>
   </main>
 
-  <section id="bookings" class="collapse container-fluid bg-red text-white py-3">
+  <section id="bookings" class="collapse container-fluid text-white py-3" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }};{% else %}background-color: rgb(255, 0, 0); {% endif %}">
       <p class="lead text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       <form action="" method="POST">
           <div class="form-group">
@@ -61,7 +61,7 @@
       </div>
       {% endfor %}
       {% else %}
-      <div class="alert alert-info alert-dismissible w-100 text-center"><button type="button" class="close" data-dismiss="alert">&times;</button>No photos uploaded</div>
+      <div class="alert alert-info alert-dismissible w-100 text-center" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }};{% else %}background-color: rgb(255, 0, 0); {% endif %}"><button type="button" class="close" data-dismiss="alert">&times;</button>No photos uploaded</div>
       {% endif %}
 
       </div>
@@ -85,7 +85,7 @@
                   <td>{{ moment(show.timestamp).format("LLLL") }}</td>
                   <td>{{ show.venue | safe}}</td>
                   <td>Baltimore, MD</td>
-                  <td><a class="btn btn-danger" type="button">RSVP</button></td>
+                  <td><a class="btn btn-danger" type="button" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }}; border:1px solid {{ admin_settings.site_dominant_color }} !important; {% if admin_settings.site_accent_color %}{{ admin_settings.site_accent_color }} {% endif %}{% else %}background-color: rgb(255, 0, 0); {% endif %}">RSVP</a></td>
               </tr>
               {% endfor %}
               {% elif shows == '0' %}
@@ -101,7 +101,7 @@
 
               <tr>
                   <td colspan="4">
-                      <a href="" class="btn btn-danger btn-lg btn-block">Play My City</a>
+                      <a href="" class="btn btn-danger btn-lg btn-block" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }};{% else %}background-color: rgb(255, 0, 0); {% endif %}">Play My City</a>
                   </td>
               </tr>
           
@@ -124,7 +124,7 @@
                         </figure>
                         <h4 class="card-title">{{ post.author.username }}</h4>
                         <div class="card-text lead text-truncate">
-                          <h5><a href="{{ url_for('blog_post', slug=post.slug) }}" alt="{{ post.title }}" title="{{ post.title }}">{{ post.title }}</a></h5>
+                          <h5><a href="{{ url_for('blog_post', slug=post.slug) }}" style="{% if admin_settings.site_dominant_color != " " %}color: {{ admin_settings.site_dominant_color }} !important;{% else %}color: rgb(0, 255, 0); {% endif %}" alt="{{ post.title }}" title="{{ post.title }}">{{ post.title }}</a></h5>
                           <p>{{ post.body }}
                         </div>
                     </div>

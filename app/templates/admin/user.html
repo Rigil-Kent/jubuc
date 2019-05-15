@@ -11,12 +11,12 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
         <h1 class="h2">Users</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#UserAdminForm" role="button" aria-controls="#UserAdminForm">New User</a></button>
+            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#userAdminForm" role="button" aria-controls="#userAdminForm">New user</a></button>
         </div>
     </div>
     
 
-    <div class="col collapse" id="UserAdminForm">
+    <div class="col collapse" id="userAdminForm">
             <form action="{{ url_for('admin_users') }}" method="POST" enctype=multipart/form-data>
                 {{ form.hidden_tag() }}
                 <p class="form-group">
@@ -85,16 +85,16 @@
             </form>
     </div>
     
-    <h2>All Users</h2>
+    <h2>All users</h2>
 
     <section class="table-responsive">
 
             <table class="table table-striped">
                 <thead>
-                    <th></th>
-                    <th>UserID</th>
-                    <th>Title</th>
-                    <th>File</th>
+                    <th>userID</th>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
                     <th>Delete?</th>
                 </thead>
 
@@ -102,10 +102,10 @@
                     {% if users %}
                     {% for user in users %}
                     <tr>
-                    <td><img class="img-thumbnail" src="{{ url_for('static', filename='uploads/'+ User.file) }}" width="15%"></td>
                     <td>{{ user.id }}</td>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.file }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.first_name }} {{ user.last_name }}</td>
+                    <td>{{ user.email }}</td>
                     <td><a href="{{ url_for('delete_user', username=user.username) }}" class="btn btn-danger">&times;</a></td>
                     </tr>
                     {% endfor %}

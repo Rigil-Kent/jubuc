@@ -247,3 +247,7 @@ nav a:hover {
 .box14 .icon li a:hover{background:green;border-color:green}
 @media only screen and (max-width:990px){.box14{margin-bottom:30px}
 }
+
+.form-fix {
+    margin-top: -200px;
+}

@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, date
 from app import app, db
 from flask import render_template, redirect, flash, session, request, send_from_directory, url_for
 from app.models import Administrator, User, Audio, Active, Post, Show, Photo, Contact
-from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm, UserForm, ContactForm
+from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm, UserForm, ContactForm, SettingsForm
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import Markup
 from werkzeug.urls import url_parse
@@ -14,7 +14,6 @@ from werkzeug.utils import secure_filename
 #region global vars & methods
 accepted_methods = ["GET", "POST"]
 translate = str.maketrans('', '', string.punctuation)
-
 
 def upload_file(filerequest, type=None):
     if request.method =="POST":
@@ -341,6 +340,7 @@ def admin_photos():
 @app.route('/admin/users', methods=accepted_methods)
 def admin_users():
     form = UserForm()
+    users = db.session.query(User).all()
 
     if form.validate_on_submit():
         user =  User()
@@ -353,9 +353,9 @@ def admin_users():
         db.session.add(user)
         db.session.commit()
         message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">User <strong>{}</strong> added.'.format(user.username))
-        flask(message)
+        flash(message)
         return redirect(url_for('admin_users'))
-    return render_template('admin/user.html', form=form)
+    return render_template('admin/user.html', form=form, users=users)
 
 @login_required
 @app.route('/admin/contacts', methods=accepted_methods)
@@ -379,6 +379,41 @@ def admin_contacts():
         return redirect(url_for('admin_contacts'))
     return render_template('admin/contact.html', form=form, contacts=contacts)
 
+@login_required
+@app.route('/admin/settings', methods=accepted_methods)
+def admin_settings():
+    form = SettingsForm()
+    admin = db.session.query(Administrator).get(1)
+    if request.method == "GET":
+        form.username.data = admin.username
+        form.first_name.data = admin.first_name
+        form.last_name.data = admin.last_name
+        form.email.data = admin.email
+
+        form.about_details.data = admin.about_detail
+        form.about_heading.data = admin.about_heading
+
+        form.site_dominant_color.data = admin.site_dominant_color
+        form.site_accent_color.data = admin.site_accent_color
+
+    if form.validate_on_submit():
+        admin = db.session.query(Administrator).get(1)
+        admin.first_name = form.first_name.data
+        admin.last_name = form.last_name.data
+        admin.email = form.email.data
+
+        admin.about_detail = form.about_details.data
+        admin.about_heading = form.about_heading.data
+
+        admin.site_dominant_color = form.site_dominant_color.data
+        admin.site_accent_color = form.site_accent_color.data
+        db.session.add(admin)
+        db.session.commit()
+
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Settings saved</div>')
+        flash(message)
+        return redirect(url_for('admin_settings'))
+    return render_template('admin/settings.html', form=form)
 #region Delete Ops
 @login_required
 @app.route('/admin/delete/user/<username>')

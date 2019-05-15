@@ -1,6 +1,6 @@
   <hr class="hr">
 
-  <footer class="container-fluid text-center">
+  <footer class="container-fluid text-center" style="{% if admin_settings.site_dominant_color != " " %}color: {{ admin_settings.site_dominant_color }} !important;{% else %}color: rgb(0, 255, 0); {% endif %}">
       <div class="row">
           <div class="col">
               <p class="lead mb-0 pb-0">Copyright&copy; 2019, JUBUC</p>

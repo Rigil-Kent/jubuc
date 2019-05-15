@@ -1,0 +1,178 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
+        <h1 class="h2">Site Settings</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+        </div>
+    </div>
+    
+    <form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <ul class="nav nav-tabs" id="settingsTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#index-edit">Front Page</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#about-edit">About Page</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#display-edit">Display Settings</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#social-edit">Social Links</a>
+        </li>
+
+    </ul>
+    
+    
+    <div class="tab-content">
+
+        <div class="tab-pane container show active" role="tabpanel" id="index-edit">
+
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(class="form-control", readonly=True)}}
+                {% for error in form.username.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.first_name.label }}
+                {{ form.first_name(class="form-control")}}
+                {% for error in form.first_name.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.last_name.label }}
+                {{ form.last_name(class="form-control")}}
+                {% for error in form.last_name.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(class="form-control")}}
+                {% for error in form.email.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="tab-page container fade pb-0 mb-0" role="tabpanel" id="about-edit">
+            <div class="form-group">
+                {{ form.about_heading.label }}
+                {{ form.about_heading(class="form-control") }}
+                {% for error in form.about_heading.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.about_details.label }}
+                {{ form.about_details(class="form-control") }}
+                {% for error in form.about_details.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tab-pane container fade" id="display-edit">
+            <div class="form-group">
+                {{ form.site_dominant_color.label }}
+                {{ form.site_dominant_color(class="form-control cp") }}
+                {% for error in form.site_dominant_color.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.site_accent_color.label }}
+                {{ form.site_accent_color(class="form-control cp") }}
+                {% for error in form.site_accent_color.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.site_background_color.label }}
+                {{ form.site_background_color(class="form-control cp") }}
+                {% for error in form.site_background_color.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tab-pane container fade " role="tabpanel" id="social-edit">
+            <div class="form-group">
+                {{ form.facebook.label }}
+                {{ form.facebook(class="form-control") }}
+                {% for error in form.facebook.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.twitter.label }}
+                {{ form.twitter(class="form-control") }}
+                {% for error in form.twitter.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.instagram.label }}
+                {{ form.instagram(class="form-control") }}
+                {% for error in form.instagram.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.soundcloud.label }}
+                {{ form.soundcloud(class="form-control") }}
+                {% for error in form.soundcloud.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.youtube.label }}
+                {{ form.youtube(class="form-control") }}
+                {% for error in form.youtube.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.spotify.label }}
+                {{ form.spotify(class="form-control") }}
+                {% for error in form.spotify.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="form-group">{{ form.submit(class="btn btn-success") }}</div>
+
+    </div>
+    </form>
+
+</main>
+{% endblock content %}

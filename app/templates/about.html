@@ -2,8 +2,8 @@
 {% block content %}
 <div class="container-fluid jubuc-background-clear">
 </div>
-  <div class="container mt-5 text-danger">
-      <h2 class="border-bottom border-secondary pt-1">{% if admin_settings.about_heading != None %}{{ admin_settings.about_heading }}{% else %}Who's This Guy?{% endif %}</h2>
+  <div class="container mt-5 text-danger" style="{% if admin_settings.site_dominant_color != " " %}color: {{ admin_settings.site_dominant_color }};{% else %}color: rgb(255, 0, 0); {% endif %}">
+      <h2 class="border-bottom border-secondary pt-1">{% if admin_settings.about_heading != " " %}{{ admin_settings.about_heading }}{% else %}Who's This Guy?{% endif %}</h2>
       <div class="row">
           <div class="col-md-7">
               <p>
@@ -13,7 +13,7 @@
               </p>
           </div>
 
-          <div class="col-md-4 bg-danger text-white">
+          <div class="col-md-4 bg-danger text-white" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }};{% else %}background-color: rgb(255, 0, 0); {% endif %}">
               <form action="" method="POST">
                   <h2 class="text-center pt-1">Book a show</h2>
                   <div class="form-group">

@@ -44,7 +44,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('admin_shows') }}">
-                            <span class="fa fa-tasks"></span>
+                            <span class="fa fa-magic"></span>
                             Shows
                         </a>
                     </li>
@@ -58,14 +58,14 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('admin_photos') }}">
-                            <span class="fa fa-clipboard"></span>
+                            <span class="fa fa-image"></span>
                             Photos
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('admin_contacts') }}">
-                            <span class="fa fa-shopping-cart"></span>
+                            <span class="fa fa-users"></span>
                             Contacts
                         </a>
                     </li>
@@ -80,41 +80,16 @@
                 </h6>
 
                 <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span class="fa fa-globe"></span>
-                            Front Page
-                        </a>
-                    </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span class="fa fa-globe"></span>
-                            About Page
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span class="fa fa-globe"></span>
-                            Contact Page
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span class="fa fa-globe"></span>
-                            Social Links
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ url_for('admin_settings') }}">
                             <span class="fa fa-gear"></span>
                             Settings
                         </a>
                     </li>
+
                 </ul>
+
             </div>
         </div>
     </div>
