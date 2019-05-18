@@ -92,9 +92,11 @@
               <h2 class="display-4 mb-0 pb-0">{{ post.title }}</h2>
               <h5 class="text-muted">{{ moment(post.timestamp).format('LLLL')}}</h5>
               <small>by {{ post.author.first_name }}</small>
-              <img class="img-fluid" src="{{ url_for('static', filename='uploads/posts/' + post.featured_image) }}" alt="{{ post.title }}" title="{{ post.title }}">
+              <p>
+              <img class="img-thumbnail float-left mx-2" src="{{ url_for('static', filename='uploads/posts/' + post.featured_image) }}" alt="{{ post.title }}" title="{{ post.title }}" width="350px">
 
               {{ post.body }}
+              </p>
           </div>
 
           <div class="col-md-4">

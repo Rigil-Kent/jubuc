@@ -85,44 +85,74 @@ def index():
     posts = db.session.query(Post).order_by(Post.id.desc()).limit(4)
     shows = Show.query.filter(Show.timestamp >= date.today()).order_by(Show.timestamp.desc()).limit(4)
     photos = db.session.query(Photo).order_by(Photo.timestamp.desc()).limit(4)
-    
+    form = ContactForm()
+
+
     if admin == 0:
         return redirect(url_for('admin_welcome'))
 
     admin_settings = db.session.query(Administrator).get(1)
 
-    return render_template('index.html', track=track, posts=posts, shows=shows, photos=photos, admin_settings=admin_settings)
+    if form.validate_on_submit():
+        contact = Contact()
+        contact.name = form.name.data
+        contact.email = form.email.data
+        contact.phone = form.phone.data
+        contact.subject = form.subject.data
+        contact.message = form.subject.data
+        
+        db.session.add(contact)
+        db.session.commit()
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> Thank you! Jubuc will be in touch with you shortly.</div>')
+        flash(message)
+        return redirect(url_for('index'))
 
-@app.route('/about')
+    return render_template('index.html', form=form, track=track, posts=posts, shows=shows, photos=photos, admin_settings=admin_settings)
+
+@app.route('/about', methods=accepted_methods)
 def about():
     track = db.session.query(Active).get(1)
     post = db.session.query(Post).order_by(Post.id.desc()).first()
     admin_settings = db.session.query(Administrator).get(1)
-    return render_template('about.html', admin_settings=admin_settings, post=post, track=track)
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        contact = Contact()
+        contact.name = form.name.data
+        contact.email = form.email.data
+        contact.phone = form.phone.data
+        contact.subject = form.subject.data
+        contact.message = form.subject.data
+        
+        db.session.add(contact)
+        db.session.commit()
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> Thank you! Jubuc will be in touch with you shortly.</div>')
+        flash(message)
+        return redirect(url_for('index'))
 
 
-@app.route('/shows')
+    return render_template('about.html', form=form, admin_settings=admin_settings, post=post, track=track)
+
+
+@app.route('/shows', methods=accepted_methods)
 def shows():
-    form = ShowForm()
+    form = ContactForm()
     track = db.session.query(Active).get(1)
     shows = Show.query.filter(Show.timestamp >= date.today()).order_by(Show.timestamp.desc()).limit(10)
     past_shows = Show.query.filter(Show.timestamp <= date.today()).order_by(Show.timestamp.desc()).limit(5)
     admin_settings = db.session.query(Administrator).get(1)
 
     if form.validate_on_submit():
-        show = Show()
-        show.title = form.title.data
-        show.timestamp = form.timestamp.data
-        show.location = form.location.data
-        show.url = form.url.data
-        show.details = form.details.data
-
-        if form.featured_image.data is not None:
-            show.featured_image = upload_file('featured_image', type="post")
-
-        db.session.add(show)
+        contact = Contact()
+        contact.name = form.name.data
+        contact.email = form.email.data
+        contact.phone = form.phone.data
+        contact.subject = form.subject.data
+        contact.message = form.subject.data
+        
+        db.session.add(contact)
         db.session.commit()
-        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Show requested! Jubuc will contact you for details. Thank you.</div>')
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> Thank you! Jubuc will be in touch with you shortly.</div>')
         flash(message)
         return redirect(url_for('index'))
 
@@ -165,8 +195,9 @@ def photos():
 @app.route('/admin')
 def admin_dashboard():
     u_count = User.query.count()
+    t_count = Audio.query.count()
     users = db.session.query(User).all()
-    return render_template('admin/index.html', u_count=u_count, users=users)
+    return render_template('admin/index.html', u_count=u_count, t_count=t_count, users=users)
 
 @login_required
 @app.route('/admin/welcome', methods=accepted_methods)
@@ -352,7 +383,7 @@ def admin_users():
         
         db.session.add(user)
         db.session.commit()
-        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">User <strong>{}</strong> added.'.format(user.username))
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">User <strong>{}</strong> added.</div>'.format(user.username))
         flash(message)
         return redirect(url_for('admin_users'))
     return render_template('admin/user.html', form=form, users=users)

@@ -4,8 +4,8 @@
 <div class="container-fluid jubuc-background-clear">
 </div>
   <div class="container mt-5 text-danger" style="{% if admin_settings.site_dominant_color != " " %}color: {{ admin_settings.site_dominant_color }} !important;{% else %}color: rgb(0, 255, 0); {% endif %}">
-      <h2 class="border-bottom border-secondary pt-1">Come see Jubuc</h2>
-      <div class="row">
+      <h2 class="border-bottom border-secondary display-4 pt-1 pb-0 mb-0">Come see Jubuc</h2>
+      <div class="row mt-0">
           <div class="col-md-7">
               <h3>Upcoming shows</h3>
 
@@ -50,7 +50,7 @@
                   <td>{{ moment(past.timestamp).format("LLLL") }}</td>
                   <td>{{ past.venue | safe}}</td>
                   <td>Baltimore, MD</td>
-                  <td><a class="btn" type="button" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }}; border:1px solid {{ admin_settings.site_dominant_color }} !important; {% if admin_settings.site_accent_color %}{{ admin_settings.site_accent_color }} {% endif %}{% else %}background-color: rgb(255, 0, 0); {% endif %}">RSVP</a></td>
+                  <td><a class="btn btn-sm text-white" type="button" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }}; border:1px solid {{ admin_settings.site_dominant_color }} !important; {% if admin_settings.site_accent_color %}{{ admin_settings.site_accent_color }} {% endif %}{% else %}background-color: rgb(255, 0, 0); {% endif %}">RSVP</a></td>
               </tr>
               {% endfor %}
               {% endif %}
@@ -63,28 +63,55 @@
 
           </div>
 
-          <div class="col-md-4 text-white" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }};{% else %}background-color: rgb(255, 0, 0); {% endif %}">
-              <form action="" method="POST">
-                  <h2 class="text-center pt-1">Book a show</h2>
-                  <div class="form-group">
-                      <label for="name">Name: </label>
-                      <input type="name" class="form-control" id="name">
-                  </div>
+          <div class="col-md-4 text-white ml-5" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }};{% else %}background-color: rgb(255, 0, 0); {% endif %}">
+              <form action="" method="POST" enctype=multipart/form-data>
+                <h2 class="text-center py-1">Book A Show</h2>
+                {{ form.hidden_tag() }}
+                <p class="form-group">
+                    {{ form.name.label }}
+                    {{ form.name(class="form-control")}}
+                    {% for error in form.name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
 
-                  <div class="form-group">
-                      <label for="email">Email: </label>
-                      <input type="email" class="form-control" id="email">
-                  </div>
+                <p class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email(class="form-control")}}
+                    {% for error in form.email.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
 
-                  <div class="form-group">
-                      <label for="phone">Phone: </label>
-                      <input type="phone" class="form-control" id="phone">
-                  </div>
+                <p class="form-group">
+                    {{ form.phone.label }}
+                    {{ form.phone(class="form-control")}}
+                    {% for error in form.phone.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
 
-                  <div class="form-group">
-                      <label for="message">Message: </label>
-                      <textarea type="message" class="form-control" id="message"></textarea>
-                  </div>
-              </form>
+                <p class="form-group">
+                    {{ form.subject.label }}
+                    {{ form.subject(class="form-control")}}
+                    {% for error in form.subject.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.message.label }}
+                    {{ form.message(class="form-control")}}
+                    {% for error in form.message.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+
+                <p class="form-group">
+                    {{ form.submit(class="btn btn-success") }}
+                </p>
+            
+            </form>
           </div>
 {% endblock %}

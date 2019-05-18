@@ -24,7 +24,7 @@ nav {
     font-size: 16px; 
     font-weight: 500;
     background-color: white;
-    color: #750202;;
+    color: #750202;
 }
 
 nav::after {
@@ -37,6 +37,15 @@ nav::after {
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
+.btn {
+    background-color: #750202 !important;
+    border: 1px solid #750202 !important;
+}
+
+.btn:hover {
+    background-color: white !important;
+    color: #750202 !important;
+}
 
 nav a:link, nav a:visited {
     color: #C0C0C0;
@@ -139,7 +148,6 @@ nav a:hover {
 .card-img-top {
     display: block;
     width: 100%;
-    height: auto;
 }
 
 .card-title {
