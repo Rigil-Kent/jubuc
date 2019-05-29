@@ -1,0 +1,9 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container-fluid jubuc-background-clear">
+</div>
+  <div class="container mt-5 text-danger" style="{% if admin_settings.site_dominant_color != " " %}color: {{ admin_settings.site_dominant_color }};{% else %}color: rgb(255, 0, 0); {% endif %}">
+  </div>
+
+  
+{% endblock %}

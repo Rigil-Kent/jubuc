@@ -12,6 +12,10 @@
         <h1 class="h2">Audio</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#audioAdminForm" role="button" aria-controls="#audioAdminForm">New Track</a></button>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('index') }}" target="_blank">View Site</a>
+            </div>
         </div>
     </div>
     
@@ -39,15 +43,6 @@
                     {{ upform.album_art.label }}
                     {{ upform.album_art(class="form-control-file")}}
                     {% for error in upform.album_art.errors %}
-                        {{ error }}
-                    {% endfor %}
-                </p>
-
-                <p class="form-check">
-                    
-                    {{ upform.is_active(class="form-check-input")}}
-                    {{ upform.is_active.label(class="form-check-label") }}
-                    {% for error in upform.is_active.errors %}
                         {{ error }}
                     {% endfor %}
                 </p>
@@ -86,7 +81,7 @@
                     <th>Title</th>
                     <th>File</th>
                     <th>Album Art</th>
-                    <th>Delete?</th>
+                    <th>Actions</th>
                 </thead>
 
                 <tbody>
@@ -98,7 +93,13 @@
                     <td>{{ track.name }}</td>
                     <td>{{ track.file }}</td>
                     <td>{{ track.album_art }}</td>
-                    <td><a href="{{ url_for('delete_track', track=track.name) }}" class="btn btn-danger">&times;</a></td>
+                    <td width="150px">
+                        <ul class="list-inline btn-toolbar mb-2 mb-md-0">
+                            <li class="list-inline-item"><a href="{{ url_for('edit_track', name=track.name) }}" class="btn btn-info" title="Edit" alt="Edit"><span class="fa fa-pencil"></span></a></li> 
+                            <li class="list-inline_item"><a href="{{ url_for('delete_track', track=track.name) }}" title="Delete" alt="Delete" class="btn btn-danger">&times;</a></li>
+                        </ul>
+                    </td>
+                    <td></td>
                     </tr>
                     {% endfor %}
                     {% endif %}

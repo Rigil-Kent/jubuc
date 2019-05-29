@@ -9,19 +9,16 @@
           {% endif %}
       {% endwith %}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
-        <h1 class="h2">Posts</h1>
+        <h1 class="h2">Edit Post {{ post.title }}</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#postAdminForm" role="button" aria-controls="#postAdminForm">New Post</a></button>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
                 <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('index') }}" target="_blank">View Site</a>
             </div>
         </div>
     </div>
-    
 
-    <div class="col collapse" id="postAdminForm">
-            <form action="" method="POST" enctype=multipart/form-data>
+    <form action="" method="POST" enctype=multipart/form-data>
                 {{ form.hidden_tag() }}
                 <p class="form-group">
                     {{ form.title.label }}
@@ -53,48 +50,7 @@
                 </p>
             
             </form>
-    </div>
-        <h2>All Posts</h2>
-    <section class="table-responsive">
 
-            <table class="table table-striped">
-                <thead>
-                    <th>PostID</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Timestamp</th>
-                    <th>Featured Image</th>
-                    <th>Body</th>
-                    <th>Actions</th>
-                </thead>
-
-                <tbody>
-                    {% if posts %}
-                    {% for post in posts %}
-                    <tr>
-                    
-                    <td>{{ post.id }}</td>
-                    <td>{{ post.title }}</td>
-                    <td>{{ post.author.username }}</td>
-                    <td>{{ post.timestamp }}</td>
-                    <td>{{ post.featured_image }}</td>
-                    <td>{{ post.body[:300] }}</td>
-                    <td width="150px">
-                        <ul class="list-inline btn-toolbar mb-2 mb-md-0">
-                            <li class="list-inline-item"><a href="{{ url_for('edit_post', title=post.title) }}" class="btn btn-info" title="Edit" alt="Edit"><span class="fa fa-pencil"></span></a></li> 
-                            <li class="list-inline_item"><a href="{{ url_for('delete_post', title=post.title) }}" title="Delete" alt="Delete" class="btn btn-danger">&times;</a></li>
-                        </ul>
-                    </td>
-                    </tr>
-                    {% endfor %}
-                    {% endif %}
-                    
-                </tbody>
-
-            </table>
-
-
-    </section>
 
 </main>
 {% endblock content %}

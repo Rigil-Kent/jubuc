@@ -96,12 +96,31 @@ class UserForm(FlaskForm):
     avatar = FileField('Avatar')
     submit = SubmitField('Add')
 
+class EditUserForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    password = PasswordField('Password')
+    confirm = PasswordField('Repeat Password', validators=[EqualTo('password')])
+    facebook = StringField('Facebook')
+    twitter = StringField('Twitter')
+    instagram = StringField('Instagram')
+    bio = TextAreaField('About Me')
+    avatar = FileField('Avatar')
+    submit = SubmitField('Save')
+
 class AudioForm(FlaskForm):
     name = StringField('Track Title', validators=[DataRequired()])
     file = FileField('Track File', validators=[DataRequired()])
     album_art = FileField('Album Art')
-    is_active = BooleanField('Active?')
     submit = SubmitField('Add')
+
+class EditAudioForm(FlaskForm):
+    name = StringField('Track Title')
+    file = FileField('Track File')
+    album_art = FileField('Album Art')
+    submit = SubmitField('Save')
 
 class PlayerForm(FlaskForm):
     active_track = QuerySelectField('Active Track ', query_factory=audio_factory, allow_blank=True, get_label="name")
@@ -123,6 +142,15 @@ class ShowForm(FlaskForm):
     details = StringField('Details')
     submit = SubmitField('Submit')
 
+class EditShowForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    timestamp = DateTimeField('Date & Time', id="datepick", format='%m/%d/%Y %H:%M %p',validators=[DataRequired()])
+    location = StringField('Location', validators=[DataRequired()])
+    featured_image = FileField('Featured Image',)
+    url = StringField('Website')
+    details = StringField('Details')
+    submit = SubmitField('Save')
+
 class PhotoForm(FlaskForm):
     name = StringField('Title', validators=[DataRequired()])
     caption = StringField('Caption', validators=[DataRequired()])
@@ -136,3 +164,9 @@ class ContactForm(FlaskForm):
     subject = StringField('Subject', validators=[DataRequired()])
     message = TextAreaField('Message', validators=[DataRequired()])
     submit = SubmitField('Send Message')
+
+class EditContactForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    phone = StringField('Phone', validators=[DataRequired()])
+    submit = SubmitField('Update Contact')

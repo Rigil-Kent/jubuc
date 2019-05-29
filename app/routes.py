@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, date
 from app import app, db
 from flask import render_template, redirect, flash, session, request, send_from_directory, url_for
 from app.models import Administrator, User, Audio, Active, Post, Show, Photo, Contact
-from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm, UserForm, ContactForm, SettingsForm
+from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm, UserForm, ContactForm, SettingsForm, EditUserForm, EditShowForm, EditContactForm, EditAudioForm
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import Markup
 from werkzeug.urls import url_parse
@@ -178,6 +178,13 @@ def blog_post(slug):
     
     return render_template('blog_post.html', prev=prev, next=_next, post=post, track=track)
 
+@app.route('/blog')
+def blog():
+    posts = Post.query.all()
+    admin_settings = Administrator.query.get(1)
+    return render_template('blog.html', posts=posts, admin_settings=admin_settings)
+
+
 @app.route('/shows/<slug>')
 def show_post(slug):
     show = db.session.query(Show).filter_by(slug=Show.slug).first()
@@ -196,8 +203,9 @@ def photos():
 def admin_dashboard():
     u_count = User.query.count()
     t_count = Audio.query.count()
+    p_count = Post.query.count()
     users = db.session.query(User).all()
-    return render_template('admin/index.html', u_count=u_count, t_count=t_count, users=users)
+    return render_template('admin/index.html', u_count=u_count, p_count=p_count, t_count=t_count, users=users)
 
 @login_required
 @app.route('/admin/welcome', methods=accepted_methods)
@@ -514,6 +522,165 @@ def delete_contact(id):
     flash(message)
     return redirect(url_for('admin_contacts'))
 #endregion Delete Ops
+
+
+#region Edit Ops
+
+@login_required
+@app.route('/admin/edit/user/<username>')
+def edit_user(username):
+    user = db.session.query(User).filter_by(username=username).first_or_404()
+    form = EditUserForm()
+
+    if request.method == "GET":
+        form.username.data = user.username
+        form.email.data = user.email
+        form.first_name.data = user.first_name
+        form.last_name.data = user.last_name
+        form.bio.data = user.bio
+        form.facebook.data = user.facebook
+        form.twitter.data = user.twitter
+
+    if form.validate_on_submit():
+        user.email = form.email.data
+        user.first_name = form.first_name.data
+        user.last_name = form.last_name.data
+        user.bio = form.bio.data
+        user.facebook = form.facebook.data
+        user.twitter = form.twitter.data
+
+        db.session.add(user)
+        db.session.commit()
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> User {} settings saved'.format(user.username))
+        flash(message)
+        return redirect(request.url)
+        
+    return render_template('admin/user_edit.html', form=form, user=user)
+
+@login_required
+@app.route('/admin/edit/show/<title>')
+def edit_show(title):
+    show = db.session.query(Show).filter_by(title=title).first_or_404()
+    form = EditShowForm()
+
+    if request.method == "GET":
+        form.title.data = show.title
+        form.timestamp.data = show.timestamp
+        form.details.data = show.details
+        form.location.data = show.location
+        form.url.data = show.url
+
+    if form.validate_on_submit():
+        show.title = form.title.data
+        show.timestamp = form.timestamp.data
+        show.details = form.details.data
+        show.location = form.location.data
+        show.url = form.url.data
+
+        db.session.add(show)
+        db.session.commit()
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>Show {} updated.</div>'.format(show.title))
+        flash(message)
+        return redirect(request.url)
+    return render_template('admin/show_edit.html', form=form, show=show)
+
+@login_required
+@app.route('/admin/edit/contact/<id>')
+def edit_contact(id):
+    contact = db.session.query(Contact).filter_by(id=id).first_or_404()
+    form = EditContactForm()
+
+    if request.method == "GET":
+        form.name.data = contact.name
+        form.phone.data = contact.phone
+        form.email.data - contact.email
+
+
+    if form.validate_on_submit():
+        contact.name = form.name.data
+        contact.phone = form.phone.data
+        contact.email   = form.email.data
+
+        db.session.add(contact)
+        db.session.commit()
+        message = Markup('<div class="alert alert-succes alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Contact {} updated.</div>'.format(contact.name))
+        flash(message)
+        return redirect(request.url)
+
+    return render_template('admin/contact_edit.html', form=form, contact=contact)
+
+
+@login_required
+@app.route('/admin/edit/audio/<name>')
+def edit_track(name):
+    track = db.session.query(Audio).filter_by(name=name).first_or_404()
+    form = EditAudioForm()
+
+    if request.method == "GET":
+        form.name.data = track.name
+        form.album_art.data = track.album_art
+        form.file = track.file
+
+    if form.validate_on_submit():
+        track.file = upload_file('file', type='AUDIO') 
+        track.album_art = upload_file('album_art', type='AUDIO')
+        track.name = form.name.data
+
+        db.session.add(track)
+        db.session.commit()
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Audio track {} updated.</div>'.format(track.name))
+        flash(message)
+        return redirect(request.url)
+
+    return render_template('admin/audio_edit.html', form=form, track=track)
+
+
+@login_required
+@app.route('/admin/edit/post/<title>')
+def edit_post(title):
+    post = db.session.query(Post).filter_by(title=title).first_or_404()
+    form = PostForm()
+
+    if request.method == "GET":
+        form.title.data = post.title
+        form.featured_image.data = post.featured_image
+        form.body.data = post.body
+
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.body = form.body.data
+        post.featured_image = upload_file('featured_image', type="POSTS")
+
+        db.session.add(post)
+        db.session.commit()
+
+        return redirect(request.url)
+
+    return render_template('admin/post_edit.html', form=form, post=post)
+
+@login_required
+@app.route('/admin/edit/photo/<name>')
+def edit_photo(name):
+    photo = db.session.query(Photo).filter_by(name=name).first_or_404()
+    form = PhotoForm()
+
+    if request.method == "GET":
+        form.name.data = photo.name
+        form.caption.data = photo.caption
+        form.file = photo.file
+
+    if form.validate_on_submit():
+        photo.name = form.name.data
+        photo.caption = form.caption.data
+        photo.file = upload_file('file')
+
+        db.sessopn.add(photo)
+        db.session.commit()
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Photo {} saved'.format(photo.name))
+        flash(message)
+        return redirect(request.url)
+    return render_template('admin/photo_edit.html', form=form, photo=photo)
+#endregion
 
 
 #endregion

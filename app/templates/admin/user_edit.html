@@ -9,9 +9,8 @@
           {% endif %}
       {% endwith %}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
-        <h1 class="h2">Users</h1>
+        <h1 class="h2">Edit {{ user.username }}</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#userAdminForm" role="button" aria-controls="#userAdminForm">New user</a></button>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
                 <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('index') }}" target="_blank">View Site</a>
@@ -19,9 +18,7 @@
         </div>
     </div>
     
-
-    <div class="col collapse" id="userAdminForm">
-            <form action="{{ url_for('admin_users') }}" method="POST" enctype=multipart/form-data>
+    <form action="{{ url_for('admin_users') }}" method="POST" enctype=multipart/form-data>
                 {{ form.hidden_tag() }}
                 <p class="form-group">
                     {{ form.first_name.label }}
@@ -54,7 +51,34 @@
                         {{ error }}
                     {% endfor %}
                 </p>
+                
+                <p class="form-group">
+                    {{ form.bio.label }}
+                    {{ form.bio(class="form-control")}}
+                    {% for error in form.bio.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
 
+                <p class="form-group">
+                    <span class="fa fa-facebook"></span> 
+                    {{ form.facebook.label }}
+                    {{ form.facebook(class="form-control")}}
+                    {% for error in form.facebook.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    <span class="fa fa-twitter"></span> 
+                    {{ form.twitter.label }}
+                    {{ form.twitter(class="form-control fa fab-twitter")}}
+                    {% for error in form.twitter.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <!--
                 <p class="form-group">
                     {{ form.password.label }}
                     {{ form.password(class="form-control")}}
@@ -71,7 +95,7 @@
                     {% endfor %}
                 </p>
 
-                <!--
+                
                 <p class="form-group">
                     {{ form.avatar.label }}
                     {{ form.avatar(class="form-control-file")}}
@@ -87,45 +111,6 @@
                 </p>
             
             </form>
-    </div>
-    
-    <h2>All users</h2>
-
-    <section class="table-responsive">
-
-            <table class="table table-striped">
-                <thead>
-                    <th>userID</th>
-                    <th>Username</th>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </thead>
-
-                <tbody>
-                    {% if users %}
-                    {% for user in users %}
-                    <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.first_name }} {{ user.last_name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td width="150px">
-                        <ul class="list-inline btn-toolbar mb-2 mb-md-0">
-                            <li class="list-inline-item"><a href="{{ url_for('edit_user', username=user.username) }}" class="btn btn-info" title="Edit" alt="Edit"><span class="fa fa-pencil"></span></a></li> 
-                            <li class="list-inline_item"><a href="{{ url_for('delete_user', username=user.username) }}" title="Delete" alt="Delete" class="btn btn-danger">&times;</a></li>
-                        </ul>
-                    </td>
-                    </tr>
-                    {% endfor %}
-                    {% endif %}
-                    
-                </tbody>
-
-            </table>
-
-
-    </section>
 
 </main>
 {% endblock content %}

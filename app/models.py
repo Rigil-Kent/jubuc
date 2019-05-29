@@ -17,6 +17,9 @@ class User(UserMixin, db.Model):
     posts = db.relationship('Post', backref="author", lazy="dynamic")
     shows = db.relationship('Show', backref="host", lazy="dynamic")
     photos = db.relationship('Photo', backref="owner", lazy="dynamic")
+    bio = db.Column(db.Text)
+    facebook = db.Column(db.String(256))
+    twitter = db.Column(db.String(256))
 
 
     def set_password(self, password):

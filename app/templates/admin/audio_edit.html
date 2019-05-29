@@ -1,0 +1,55 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+                  {{ message }}
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
+        <h1 class="h2">Editing track {{ track.name }}</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <button class="btn btn-sm btn-outline-secondary"><a data-toggle="collapse" href="#audioAdminForm" role="button" aria-controls="#audioAdminForm">New Track</a></button>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('index') }}" target="_blank">View Site</a>
+            </div>
+        </div>
+    </div>
+
+    <form action="{{ url_for('admin_audio') }}" method="POST" enctype=multipart/form-data>
+                {{ form.hidden_tag() }}
+                <p class="form-group">
+                    {{ form.name.label }}
+                    {{ form.name(class="form-control")}}
+                    {% for error in form.name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.file.label }}
+                    {{ form.file }}
+                    {% for error in form.file.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.album_art.label }}
+                    {{ form.album_art(class="form-control-file")}}
+                    {% for error in form.album_art.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+
+                <p class="form-group">
+                    {{ form.submit(class="btn btn-success") }}
+                </p>
+            
+            </form>
+
+</main>
+{% endblock content %}

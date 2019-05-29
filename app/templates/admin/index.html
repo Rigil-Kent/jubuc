@@ -11,8 +11,8 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
         <h1 class="h2">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <button class="btn btn-sm btn-outline-secondary">Promote</button>
-            <button class="btn btn-sm btn-outline-secondary"><a href="{{ url_for('index') }}">View Site</a></button>
+            <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+            <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('index') }}">View Site</a>
         </div>
     </div>
 
@@ -47,8 +47,8 @@
     <div class="col-md-2 text-center">
         <div class="card mb-2">
             <div class="card-body">
-                <h1>0</h1>
-                <h6 class="text-muted">Posts</h6>
+                <h1>{{ p_count }}</h1>
+                <h6 class="text-muted">{% if p_count > 1 %}Posts{% endif %}</h6>
             </div>
         </div>
     </div>
