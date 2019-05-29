@@ -97,12 +97,12 @@ class UserForm(FlaskForm):
     submit = SubmitField('Add')
 
 class EditUserForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired()])
+    username = StringField('Username')
+    first_name = StringField('First Name')
+    last_name = StringField('Last Name')
+    email = StringField('Email')
     password = PasswordField('Password')
-    confirm = PasswordField('Repeat Password', validators=[EqualTo('password')])
+    confirm = PasswordField('Repeat Password')
     facebook = StringField('Facebook')
     twitter = StringField('Twitter')
     instagram = StringField('Instagram')
@@ -133,6 +133,12 @@ class PostForm(FlaskForm):
     submit = SubmitField("Submit")
 
 
+class EditPostForm(FlaskForm):
+    title = StringField('Title')
+    featured_image = FileField('Feature Image')
+    body = PageDownField('Post')
+    submit = SubmitField("Save")
+
 class ShowForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     timestamp = DateTimeField('Date & Time', id="datepick", format='%m/%d/%Y %H:%M %p',validators=[DataRequired()])
@@ -143,9 +149,9 @@ class ShowForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class EditShowForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    timestamp = DateTimeField('Date & Time', id="datepick", format='%m/%d/%Y %H:%M %p',validators=[DataRequired()])
-    location = StringField('Location', validators=[DataRequired()])
+    title = StringField('Title')
+    timestamp = DateTimeField('Date & Time', id="datepick", format='%m/%d/%Y %H:%M %p')
+    location = StringField('Location')
     featured_image = FileField('Featured Image',)
     url = StringField('Website')
     details = StringField('Details')
@@ -155,6 +161,12 @@ class PhotoForm(FlaskForm):
     name = StringField('Title', validators=[DataRequired()])
     caption = StringField('Caption', validators=[DataRequired()])
     file = FileField('Photo', validators=[DataRequired()])
+    submit = SubmitField('Upload')
+
+class EditPhotoForm(FlaskForm):
+    name = StringField('Title')
+    caption = StringField('Caption')
+    file = FileField('Photo')
     submit = SubmitField('Upload')
 
 class ContactForm(FlaskForm):

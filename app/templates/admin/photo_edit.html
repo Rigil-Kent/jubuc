@@ -20,7 +20,7 @@
     </div>
 
 
-    <form action="{{ url_for('admin_photos') }}" method="POST" enctype=multipart/form-data>
+    <form action="{{ url_for('edit_photo', name=photo.name) }}" method="POST" enctype=multipart/form-data>
                 {{ form.hidden_tag() }}
                 <p class="form-group">
                     {{ form.name.label }}
@@ -36,7 +36,8 @@
                     {% for error in form.caption.errors %}
                         {{ error }}
                     {% endfor %}
-
+                
+                {% if photo.file == None %}
                 <p class="form-group">
                     {{ form.file.label }}
                     {{ form.file }}
@@ -44,6 +45,12 @@
                         {{ error }}
                     {% endfor %}
                 </p>
+                {% else %}
+                <p class="form-group">
+                    <img src="{{ url_for('static', filename='uploads/'+photo.file) }}" class="img-thumbnail" width="100px">
+                    <p class="text-muted">{{ photo.caption }} <a href="">Change photo</a></p>
+                </p>
+                {% endif %}
 
 
                 <p class="form-group">

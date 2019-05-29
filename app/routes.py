@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, date
 from app import app, db
 from flask import render_template, redirect, flash, session, request, send_from_directory, url_for
 from app.models import Administrator, User, Audio, Active, Post, Show, Photo, Contact
-from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm, UserForm, ContactForm, SettingsForm, EditUserForm, EditShowForm, EditContactForm, EditAudioForm
+from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm, UserForm, ContactForm, EditPhotoForm, SettingsForm, EditUserForm, EditShowForm, EditContactForm, EditAudioForm, EditPostForm
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import Markup
 from werkzeug.urls import url_parse
@@ -391,7 +391,7 @@ def admin_users():
         
         db.session.add(user)
         db.session.commit()
-        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">User <strong>{}</strong> added.</div>'.format(user.username))
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>User <strong>{}</strong> added.</div>'.format(user.username))
         flash(message)
         return redirect(url_for('admin_users'))
     return render_template('admin/user.html', form=form, users=users)
@@ -527,7 +527,7 @@ def delete_contact(id):
 #region Edit Ops
 
 @login_required
-@app.route('/admin/edit/user/<username>')
+@app.route('/admin/edit/user/<username>', methods=accepted_methods)
 def edit_user(username):
     user = db.session.query(User).filter_by(username=username).first_or_404()
     form = EditUserForm()
@@ -551,14 +551,14 @@ def edit_user(username):
 
         db.session.add(user)
         db.session.commit()
-        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> User {} settings saved'.format(user.username))
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> User {} settings saved</div>'.format(user.username))
         flash(message)
-        return redirect(request.url)
+        return redirect(url_for('admin_users'))
         
     return render_template('admin/user_edit.html', form=form, user=user)
 
 @login_required
-@app.route('/admin/edit/show/<title>')
+@app.route('/admin/edit/show/<title>', methods=accepted_methods)
 def edit_show(title):
     show = db.session.query(Show).filter_by(title=title).first_or_404()
     form = EditShowForm()
@@ -572,20 +572,21 @@ def edit_show(title):
 
     if form.validate_on_submit():
         show.title = form.title.data
-        show.timestamp = form.timestamp.data
+        if form.timestamp.data is not None:
+            show.timestamp = form.timestamp.data
         show.details = form.details.data
         show.location = form.location.data
         show.url = form.url.data
 
         db.session.add(show)
         db.session.commit()
-        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>Show {} updated.</div>'.format(show.title))
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Show {} updated.</div>'.format(show.title))
         flash(message)
-        return redirect(request.url)
+        return redirect(url_for('admin_shows'))
     return render_template('admin/show_edit.html', form=form, show=show)
 
 @login_required
-@app.route('/admin/edit/contact/<id>')
+@app.route('/admin/edit/contact/<id>', methods=accepted_methods)
 def edit_contact(id):
     contact = db.session.query(Contact).filter_by(id=id).first_or_404()
     form = EditContactForm()
@@ -611,74 +612,79 @@ def edit_contact(id):
 
 
 @login_required
-@app.route('/admin/edit/audio/<name>')
+@app.route('/admin/edit/audio/<name>', methods=accepted_methods)
 def edit_track(name):
     track = db.session.query(Audio).filter_by(name=name).first_or_404()
     form = EditAudioForm()
 
     if request.method == "GET":
         form.name.data = track.name
-        form.album_art.data = track.album_art
-        form.file = track.file
 
     if form.validate_on_submit():
-        track.file = upload_file('file', type='AUDIO') 
-        track.album_art = upload_file('album_art', type='AUDIO')
         track.name = form.name.data
+        if form.file.data is not None:
+            track.file = upload_file('file', type='AUDIO') 
+        if form.album_art.data is not None:
+            track.album_art = upload_file('album_art', type='AUDIO')
+
+       
 
         db.session.add(track)
         db.session.commit()
         message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Audio track {} updated.</div>'.format(track.name))
         flash(message)
-        return redirect(request.url)
+        return redirect(url_for('admin_audio'))
 
     return render_template('admin/audio_edit.html', form=form, track=track)
 
 
 @login_required
-@app.route('/admin/edit/post/<title>')
+@app.route('/admin/edit/post/<title>', methods=accepted_methods)
 def edit_post(title):
     post = db.session.query(Post).filter_by(title=title).first_or_404()
-    form = PostForm()
+    form = EditPostForm()
 
     if request.method == "GET":
         form.title.data = post.title
-        form.featured_image.data = post.featured_image
         form.body.data = post.body
 
     if form.validate_on_submit():
         post.title = form.title.data
         post.body = form.body.data
-        post.featured_image = upload_file('featured_image', type="POSTS")
+        if form.featured_image.data is not None:
+            post.featured_image = upload_file('featured_image', type="POSTS")
 
         db.session.add(post)
         db.session.commit()
 
-        return redirect(request.url)
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Post {} updated.</div>'.format(post.title))
+        flash(message)
+
+        return redirect(url_for('admin_posts'))
 
     return render_template('admin/post_edit.html', form=form, post=post)
 
 @login_required
-@app.route('/admin/edit/photo/<name>')
+@app.route('/admin/edit/photo/<name>', methods=accepted_methods)
 def edit_photo(name):
     photo = db.session.query(Photo).filter_by(name=name).first_or_404()
-    form = PhotoForm()
+    form = EditPhotoForm()
 
     if request.method == "GET":
         form.name.data = photo.name
         form.caption.data = photo.caption
-        form.file = photo.file
 
     if form.validate_on_submit():
         photo.name = form.name.data
         photo.caption = form.caption.data
-        photo.file = upload_file('file')
+        if form.file.data is not None:
+            photo.file = upload_file('file')
 
-        db.sessopn.add(photo)
+        db.session.add(photo)
         db.session.commit()
-        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Photo {} saved'.format(photo.name))
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Photo {} saved</div>'.format(photo.name))
         flash(message)
-        return redirect(request.url)
+        return redirect(url_for('admin_photos'))
     return render_template('admin/photo_edit.html', form=form, photo=photo)
 #endregion
 

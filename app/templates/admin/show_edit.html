@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <form action="" method="POST" enctype=multipart/form-data>
+    <form action="{{ url_for('edit_show', title=show.title) }}" method="POST" enctype=multipart/form-data>
                 {{ form.hidden_tag() }}
                 <p class="form-group">
                     {{ form.title.label }}
@@ -27,7 +27,8 @@
                         {{ error }}
                     {% endfor %}
                 </p>
-
+                
+                {% if show.timestamp == None %}
                 <div class="form-group">
                     {{ form.timestamp.label }}
                 
@@ -59,6 +60,11 @@
                         {{ error }}
                     {% endfor %}
                 </div>
+                {% else %}
+                <p class="form-group">
+                    <p class="text-muted">{{ form.timestamp }} <a href="">Change date</a></p>
+                </p>
+                {% endif %}
 
                 <p class="form-group">
                     {{ form.location.label }}
@@ -75,7 +81,8 @@
                         {{ error }}
                     {% endfor %}
                 </p>
-
+                
+                {% if show.featured_image == None %}
                 <p class="form-group">
                     {{ form.featured_image.label }}
                     {{ form.featured_image(class="form-control-file")}}
@@ -83,11 +90,17 @@
                         {{ error }}
                     {% endfor %}
                 </p>
+                {% else %}
+                <p class="form-group">
+                <img src="{{ url_for('static', filename='uploads/posts/'+show.featured_image) }}" class="img-thumbnail" width="100px">
+                <p class="text-muted">{{ show.featured_image }} <a href="">Change Featured Image</a></p>
+                </p>
+                {% endif %}
 
                 <p class="form-group">
                     
                     {{ form.details(class="form-control")}}
-                    {{ form.details.label(class="form-check-label") }}
+                    {{ form.details.label(class="form-control") }}
                     {% for error in form.details.errors %}
                         {{ error }}
                     {% endfor %}
