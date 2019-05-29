@@ -55,7 +55,8 @@ def upload_file(filerequest, type=None):
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-
+    
+    admin = db.session.query(Administrator).count()
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -69,7 +70,7 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('admin_dashboard')
         return redirect(next_page)
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, admin_setting=admin)
 
 
 @app.route('/logout')
@@ -198,16 +199,17 @@ def photos():
 
 
 #region ADMINISTRATION
-@login_required
+
 @app.route('/admin')
+@login_required
 def admin_dashboard():
     u_count = User.query.count()
     t_count = Audio.query.count()
     p_count = Post.query.count()
+    s_count = Show.query.count()
     users = db.session.query(User).all()
-    return render_template('admin/index.html', u_count=u_count, p_count=p_count, t_count=t_count, users=users)
+    return render_template('admin/index.html', u_count=u_count, p_count=p_count, t_count=t_count, s_count=s_count, users=users)
 
-@login_required
 @app.route('/admin/welcome', methods=accepted_methods)
 def admin_welcome():
     form = AdminForm()
@@ -255,8 +257,8 @@ def admin_welcome():
         return redirect(url_for('login'))
     return render_template('admin/welcome.html', form=form)
 
-@login_required
 @app.route('/admin/audio', methods=accepted_methods)
+@login_required
 def admin_audio():
     form = PlayerForm()
     upform = AudioForm()
@@ -297,8 +299,8 @@ def admin_audio():
 
     return render_template('admin/audio.html', form=form, upform=upform, tracks=tracks)
 
-@login_required
 @app.route('/admin/posts', methods=accepted_methods)
+@login_required
 def admin_posts():
     form = PostForm()
     posts = Post.query.all()
@@ -322,8 +324,8 @@ def admin_posts():
         return redirect(url_for('admin_posts'))
     return render_template('admin/posts.html', form=form, posts=posts)
 
-@login_required
 @app.route('/admin/shows', methods=accepted_methods)
+@login_required
 def admin_shows():
     form = ShowForm()
     shows = db.session.query(Show).all()
@@ -355,8 +357,8 @@ def admin_shows():
 
     return render_template('admin/shows.html', form=form, shows=shows)
 
-@login_required
 @app.route('/admin/photos', methods=accepted_methods)
+@login_required
 def admin_photos():
     form = PhotoForm()
     photos = db.session.query(Photo).all()
@@ -375,8 +377,8 @@ def admin_photos():
         return redirect(url_for('admin_photos'))
     return render_template('admin/photos.html', form=form, photos=photos)
 
-@login_required
 @app.route('/admin/users', methods=accepted_methods)
+@login_required
 def admin_users():
     form = UserForm()
     users = db.session.query(User).all()
@@ -396,8 +398,8 @@ def admin_users():
         return redirect(url_for('admin_users'))
     return render_template('admin/user.html', form=form, users=users)
 
-@login_required
 @app.route('/admin/contacts', methods=accepted_methods)
+@login_required
 def admin_contacts():
     form = ContactForm()
     contacts = db.session.query(Contact).all()
@@ -418,8 +420,8 @@ def admin_contacts():
         return redirect(url_for('admin_contacts'))
     return render_template('admin/contact.html', form=form, contacts=contacts)
 
-@login_required
 @app.route('/admin/settings', methods=accepted_methods)
+@login_required
 def admin_settings():
     form = SettingsForm()
     admin = db.session.query(Administrator).get(1)
@@ -526,8 +528,8 @@ def delete_contact(id):
 
 #region Edit Ops
 
-@login_required
 @app.route('/admin/edit/user/<username>', methods=accepted_methods)
+@login_required
 def edit_user(username):
     user = db.session.query(User).filter_by(username=username).first_or_404()
     form = EditUserForm()
@@ -557,8 +559,8 @@ def edit_user(username):
         
     return render_template('admin/user_edit.html', form=form, user=user)
 
-@login_required
 @app.route('/admin/edit/show/<title>', methods=accepted_methods)
+@login_required
 def edit_show(title):
     show = db.session.query(Show).filter_by(title=title).first_or_404()
     form = EditShowForm()
@@ -585,8 +587,8 @@ def edit_show(title):
         return redirect(url_for('admin_shows'))
     return render_template('admin/show_edit.html', form=form, show=show)
 
-@login_required
 @app.route('/admin/edit/contact/<id>', methods=accepted_methods)
+@login_required
 def edit_contact(id):
     contact = db.session.query(Contact).filter_by(id=id).first_or_404()
     form = EditContactForm()
@@ -611,8 +613,8 @@ def edit_contact(id):
     return render_template('admin/contact_edit.html', form=form, contact=contact)
 
 
-@login_required
 @app.route('/admin/edit/audio/<name>', methods=accepted_methods)
+@login_required
 def edit_track(name):
     track = db.session.query(Audio).filter_by(name=name).first_or_404()
     form = EditAudioForm()
@@ -638,8 +640,8 @@ def edit_track(name):
     return render_template('admin/audio_edit.html', form=form, track=track)
 
 
-@login_required
 @app.route('/admin/edit/post/<title>', methods=accepted_methods)
+@login_required
 def edit_post(title):
     post = db.session.query(Post).filter_by(title=title).first_or_404()
     form = EditPostForm()
@@ -664,8 +666,8 @@ def edit_post(title):
 
     return render_template('admin/post_edit.html', form=form, post=post)
 
-@login_required
 @app.route('/admin/edit/photo/<name>', methods=accepted_methods)
+@login_required
 def edit_photo(name):
     photo = db.session.query(Photo).filter_by(name=name).first_or_404()
     form = EditPhotoForm()

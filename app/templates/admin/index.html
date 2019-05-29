@@ -38,15 +38,6 @@
     <div class="col-md-2 text-center">
         <div class="card mb-2">
             <div class="card-body">
-                <h1>0</h1>
-                <h6 class="text-muted">Products</h6>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-2 text-center">
-        <div class="card mb-2">
-            <div class="card-body">
                 <h1>{{ p_count }}</h1>
                 <h6 class="text-muted">{% if p_count > 1 %}Posts{% endif %}</h6>
             </div>
@@ -56,8 +47,8 @@
     <div class="col-md-2 text-center">
         <div class="card mb-2">
             <div class="card-body">
-                <h1>0</h1>
-                <h6 class="text-muted">Projects</h6>
+                <h1>{{ s_count }}</h1>
+                <h6 class="text-muted">Show{% if s_count > 1 %}s{% endif %}</h6>
             </div>
         </div>
     </div>

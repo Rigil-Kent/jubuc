@@ -71,7 +71,7 @@
                     {% if photos %}
                     {% for photo in photos %}
                     <tr>
-                    <td><img class="img-thumbnail" src="{{ url_for('static', filename='uploads/'+ photo.file) }}" width="15%"></td>
+                    <td class="w-25"><img class="img-thumbnail" src="{{ url_for('static', filename='uploads/'+ photo.file) }}" width="15%"></td>
                     <td>{{ photo.id }}</td>
                     <td>{{ photo.name }}</td>
                     <td>{{ photo.file }}</td>

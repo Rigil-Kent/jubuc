@@ -14,3 +14,4 @@ class Config(object):
     AUDIO = UPLOAD_FOLDER + "/audio/"
     ADMIN = "bryan.bailey@brizzle.dev"
     POSTS_PER_PAGE = 12
+    TESTING = False

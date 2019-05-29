@@ -3,9 +3,15 @@
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Brizzle.Dev</a>
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <ul class="navbar-nav px-3">
+        {% if current_user.is_anonymous %}
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">Login</a>
+            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
         </li>
+        {% else %}
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </li>
+        {% endif %}
     </ul>
 </nav>
 
