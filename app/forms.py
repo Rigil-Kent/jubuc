@@ -178,7 +178,7 @@ class ContactForm(FlaskForm):
     submit = SubmitField('Send Message')
 
 class EditContactForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired()])
-    phone = StringField('Phone', validators=[DataRequired()])
+    name = StringField('Name')
+    email = StringField('Email')
+    phone = StringField('Phone')
     submit = SubmitField('Update Contact')

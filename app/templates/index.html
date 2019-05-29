@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 {% block content %}
   <main class="container-fluid px-0 px-0 text-center text-white">
+      
       <section class="row jubuc-background pt-3">
           <div class="col px-5 mt-5">
               <img src="{% if admin_settings.site_logo_image %}{{ url_for('static', filename='images/' + admin_settings.site_logo_image) }}{% else %}{{ url_for('static', filename='images/jubuc-logo.png') }}{% endif %}" class="pl-5" id="logo" width="50%">
@@ -10,10 +11,16 @@
           </div>
       </section>
   </main>
-
+  {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+                  {{ message }}
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
   <section id="bookings" class="collapse container-fluid text-white py-3" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }};{% else %}background-color: rgb(255, 0, 0); {% endif %}">
       <p class="lead text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <form action="" method="POST" enctype=multipart/form-data>
+      <form action="{{ url_for('index') }}" method="POST" enctype=multipart/form-data>
                 {{ form.hidden_tag() }}
                 <p class="form-group">
                     {{ form.name.label }}
@@ -112,7 +119,7 @@
                   <td>{{ moment(show.timestamp).format("LLLL") }}</td>
                   <td>{{ show.venue | safe}}</td>
                   <td>Baltimore, MD</td>
-                  <td><a class="btn btn-danger" type="button" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }}; border:1px solid {{ admin_settings.site_dominant_color }} !important; {% if admin_settings.site_accent_color %}{{ admin_settings.site_accent_color }} {% endif %}{% else %}background-color: rgb(255, 0, 0); {% endif %}">RSVP</a></td>
+                  <td><a class="btn btn-danger" type="button" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }}; border:1px solid {{ admin_settings.site_dominant_color }} !important; {% if admin_settings.site_accent_color %}{{ admin_settings.site_accent_color }} {% endif %}{% else %}background-color: rgb(255, 0, 0); {% endif %}" >RSVP</a></td>
               </tr>
               {% endfor %}
               {% elif shows == '0' %}
@@ -128,7 +135,7 @@
 
               <tr>
                   <td colspan="4">
-                      <a href="" class="btn btn-danger btn-lg btn-block" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }};{% else %}background-color: rgb(255, 0, 0); {% endif %}">Play My City</a>
+                      <a class="btn btn-danger btn-lg btn-block" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }};{% else %}background-color: rgb(255, 0, 0); {% endif %}" href="{{ url_for('shows') }}">Play My City</a>
                   </td>
               </tr>
           

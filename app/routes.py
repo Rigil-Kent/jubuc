@@ -100,10 +100,11 @@ def index():
         contact.email = form.email.data
         contact.phone = form.phone.data
         contact.subject = form.subject.data
-        contact.message = form.subject.data
-        
+        contact.message = form.message.data
+
         db.session.add(contact)
         db.session.commit()
+
         message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> Thank you! Jubuc will be in touch with you shortly.</div>')
         flash(message)
         return redirect(url_for('index'))
@@ -596,7 +597,7 @@ def edit_contact(id):
     if request.method == "GET":
         form.name.data = contact.name
         form.phone.data = contact.phone
-        form.email.data - contact.email
+        form.email.data = contact.email
 
 
     if form.validate_on_submit():
@@ -606,7 +607,7 @@ def edit_contact(id):
 
         db.session.add(contact)
         db.session.commit()
-        message = Markup('<div class="alert alert-succes alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Contact {} updated.</div>'.format(contact.name))
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Contact {} updated.</div>'.format(contact.name))
         flash(message)
         return redirect(request.url)
 
