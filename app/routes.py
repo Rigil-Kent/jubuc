@@ -2,9 +2,9 @@ import os
 import string
 from datetime import datetime, timedelta, date
 from app import app, db
-from flask import render_template, redirect, flash, session, request, send_from_directory, url_for
-from app.models import Administrator, User, Audio, Active, Post, Show, Photo, Contact
-from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm, UserForm, ContactForm, EditPhotoForm, SettingsForm, EditUserForm, EditShowForm, EditContactForm, EditAudioForm, EditPostForm
+from flask import render_template, redirect, flash, session, request, send_from_directory, url_for, current_app, make_response
+from app.models import Administrator, User, Audio, Active, Post, Show, Photo, Contact, RSVP
+from app.forms import AdminForm, LoginForm, AudioForm, PlayerForm, PhotoForm, PostForm, ShowForm, UserForm, ContactForm, EditPhotoForm, SettingsForm, EditUserForm, EditShowForm, EditContactForm, EditAudioForm, EditPostForm, RSVPForm
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import Markup
 from werkzeug.urls import url_parse
@@ -35,15 +35,20 @@ def sitemap():
     # get static pages
     for rule in current_app.url_map.iter_rules():
         if 'GET' in rule.methods and len(rule.arguments) == 0 and not rule.rule.startswith('/admin'):
-            pages.append(["https://www.brizzle.dev" + rule.rule, ten_days_ago.date().isoformat()])
+            pages.append(["https://www.jubuc.com" + rule.rule, ten_days_ago.date().isoformat()])
 
     # blog post pages
     posts=Post.query.order_by(Post.timestamp).all()
     for post in posts:
-        url= "https://www.brizzle.dev" + url_for('blog_post', slug=post.slug)
+        url= "https://www.jubuc.com" + url_for('blog_post', slug=post.slug)
         modified_time=post.timestamp.date().isoformat()
         pages.append([url,modified_time])
 
+    sitemap_xml = render_template('sitemap_template.xml', pages=pages)
+    response = make_response(sitemap_xml)
+    response.headers["Content-Type"] = "application/xml"
+
+    return response
 
 
 def upload_file(filerequest, type=None):
@@ -92,10 +97,10 @@ def login():
 
     if form.validate_on_submit():
         user = db.session.query(User).filter_by(username=form.username.data).first()
-        print(user.username)
         if user is None or not user.check_password(form.password.data):
             message = Markup('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Invalid username or password</div>')
-            return redirect(url_for('admin_dashboard'))
+            flash(message)
+            return redirect(url_for('login'))
         login_user(user)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
@@ -118,6 +123,7 @@ def index():
     shows = Show.query.filter(Show.timestamp >= date.today()).order_by(Show.timestamp.desc()).limit(4)
     photos = db.session.query(Photo).order_by(Photo.timestamp.desc()).limit(4)
     form = ContactForm()
+    rsvp = RSVPForm()
 
 
     if admin == 0:
@@ -137,10 +143,26 @@ def index():
         db.session.commit()
 
         message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> Thank you! Jubuc will be in touch with you shortly.</div>')
-        flash(message)
+        flash(message, category='info')
         return redirect(url_for('index'))
 
-    return render_template('index.html', form=form, track=track, posts=posts, shows=shows, photos=photos, admin_settings=admin_settings)
+    if rsvp.validate_on_submit():
+        attendee = RSVP()
+        attendee.name = rsvp.name.data
+        attendee.phone = rsvp.phone.data
+        attendee.email = rsvp.email.data
+        attendee.request = rsvp.request.data
+        attendee.shows.append(db.session.query(Show).filter_by(id=rsvp.show.data).first())
+
+        db.session.add(attendee)
+        db.session.commit()
+
+        message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> Thank you for RSVPing. See you at the show!</div>')
+        flash(message, category='info')
+        return redirect(url_for('index'))
+                
+
+    return render_template('index.html', form=form, track=track, posts=posts, shows=shows, photos=photos, admin_settings=admin_settings, rsvp=rsvp)
 
 @app.route('/about', methods=accepted_methods)
 def about():
@@ -160,7 +182,7 @@ def about():
         db.session.add(contact)
         db.session.commit()
         message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> Thank you! Jubuc will be in touch with you shortly.</div>')
-        flash(message)
+        flash(message, category='info')
         return redirect(url_for('index'))
 
 
@@ -186,7 +208,7 @@ def shows():
         db.session.add(contact)
         db.session.commit()
         message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button> Thank you! Jubuc will be in touch with you shortly.</div>')
-        flash(message)
+        flash(message, category='info')
         return redirect(url_for('index'))
 
     return render_template('shows.html', track=track, admin_settings=admin_settings, shows=shows, past_shows=past_shows, form=form)

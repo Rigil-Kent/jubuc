@@ -113,6 +113,7 @@
                     <th>Timestamp</th>
                     <th>Featured Image</th>
                     <th>Body</th>
+                    <th>Attendees</th>
                     <th>Actions</th>
                 </thead>
 
@@ -127,6 +128,13 @@
                     <td>{{ show.timestamp }}</td>
                     <td>{{ show.featured_image }}</td>
                     <td>{{ show.details }}</td>
+                    <td>
+                        <ul class="list-unstyled">
+                            {% for attendee in show.rsvps %}
+                            <li>{{ attendee.name }}</li>
+                            {% endfor  %}
+                        </ul>
+                    </td>
                     <td width="150px">
                         <ul class="list-inline btn-toolbar mb-2 mb-md-0">
                             <li class="list-inline-item"><a href="{{ url_for('edit_show', title=show.title) }}" class="btn btn-info" title="Edit" alt="Edit"><span class="fa fa-pencil"></span></a></li> 

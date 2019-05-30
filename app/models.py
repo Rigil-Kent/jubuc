@@ -106,6 +106,9 @@ class Post(db.Model):
     featured_image = db.Column(db.String(256))
     body = db.Column(db.Text)
     
+
+attendies = db.Table('attendies', db.Model.metadata, db.Column('rsvp_id', db.Integer, db.ForeignKey('rsvp.id')), db.Column('show_id', db.Integer, db.ForeignKey('show.id')))
+
 class Show(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), index=True)
@@ -117,6 +120,7 @@ class Show(db.Model):
     details = db.Column(db.Text)
     featured_image = db.Column(db.String(256))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    rsvps = db.relationship('RSVP', secondary=attendies, backref=db.backref('shows', lazy='dynamic'))
 
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -133,4 +137,13 @@ class Contact(db.Model):
     phone = db.Column(db.String(14), index=True)
     subject = db.Column(db.String(256), index=True)
     message = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+class RSVP(db.Model):
+    __tablename__ = "rsvp"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    email = db.Column(db.String(128))
+    phone = db.Column(db.String(14))
+    request = db.Column(db.String(256), index=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)

@@ -11,10 +11,12 @@
           </div>
       </section>
   </main>
-  {% with messages = get_flashed_messages() %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
-              {% for message in messages %}
+              {% for category, message in messages %}
+                {% if category == 'info'%}
                   {{ message }}
+                {% endif %}
               {% endfor %}
           {% endif %}
       {% endwith %}
@@ -119,8 +121,71 @@
                   <td>{{ moment(show.timestamp).format("LLLL") }}</td>
                   <td>{{ show.venue | safe}}</td>
                   <td>Baltimore, MD</td>
-                  <td><a class="btn btn-danger" type="button" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }}; border:1px solid {{ admin_settings.site_dominant_color }} !important; {% if admin_settings.site_accent_color %}{{ admin_settings.site_accent_color }} {% endif %}{% else %}background-color: rgb(255, 0, 0); {% endif %}" >RSVP</a></td>
+                  <td><a class="btn btn-danger" type="button" style="{% if admin_settings.site_dominant_color != " " %}background-color: {{ admin_settings.site_dominant_color }}; border:1px solid {{ admin_settings.site_dominant_color }} !important; {% if admin_settings.site_accent_color %}{{ admin_settings.site_accent_color }} {% endif %}{% else %}background-color: rgb(255, 0, 0); {% endif %}" data-toggle="modal" data-target="#rsvpShow{{ show.id }}" >RSVP</a></td>
               </tr>
+              <div class="modal fade" id="rsvpShow{{ show.id }}" tabindex="-1" role="dialog" aria-labeledby="rsvpShow{{ show.id }}" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title text-danger mx-auto" id="rsvpShow{{ show.id }}Label">RSVP for <strong>{{ show.title }}</strong></h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+
+                          <div class="modal-body">
+                              <form action="{{ url_for('index') }}" method="POST" enctype=multipart/form-data>
+                              {{ form.hidden_tag() }}
+                              <p class="form-group">
+                                  {{ rsvp.name.label }}
+                                  {{ rsvp.name(class="form-control")}}
+                                  {% for error in rsvp.name.errors %}
+                                      {{ error }}
+                                  {% endfor %}
+                              </p>
+
+                              <p class="form-group">
+                                  {{ rsvp.phone.label }}
+                                  {{ rsvp.phone(class="form-control")}}
+                                  {% for error in rsvp.phone.errors %}
+                                      {{ error }}
+                                  {% endfor %}
+                              </p>
+
+                              <p class="form-group">
+                                  {{ rsvp.email.label }}
+                                  {{ rsvp.email(class="form-control")}}
+                                  {% for error in rsvp.email.errors %}
+                                      {{ error }}
+                                  {% endfor %}
+                              </p>
+
+                              <p class="form-group">
+                                  {{ rsvp.request.label }}
+                                  {{ rsvp.request(class="form-control")}}
+                                  {% for error in rsvp.request.errors %}
+                                      {{ error }}
+                                  {% endfor %}
+                              </p>
+
+                              <p class="form-group">
+                                  {{ rsvp.show.label }}
+                                  {{ rsvp.show(class="form-control", value=show.id, readonly=readonly)}}
+                                  {% for error in rsvp.show.errors %}
+                                      {{ error }}
+                                  {% endfor %}
+                              </p>
+                              
+                              <div class="modal-footer">
+                              <p class="form-group">
+                              {{ rsvp.submit(class="btn btn-success") }}
+                              </p>
+                              </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
               {% endfor %}
               {% elif shows == '0' %}
               <tr>

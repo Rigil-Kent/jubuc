@@ -1,4 +1,4 @@
-from wtforms import SubmitField, StringField, BooleanField, PasswordField, TextAreaField, SelectField, FileField, RadioField, MultipleFileField, DateTimeField
+from wtforms import SubmitField, StringField, BooleanField, PasswordField, TextAreaField, SelectField, FileField, RadioField, MultipleFileField, DateTimeField, IntegerField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 from flask_wtf import FlaskForm
 from app.models import Audio
@@ -182,3 +182,11 @@ class EditContactForm(FlaskForm):
     email = StringField('Email')
     phone = StringField('Phone')
     submit = SubmitField('Update Contact')
+
+class RSVPForm(FlaskForm):
+    name = StringField('Name')
+    phone = StringField('Phone')
+    email = StringField('Email')
+    request = StringField('Song Request')
+    show = IntegerField('Show')
+    submit = SubmitField('RSVP')
