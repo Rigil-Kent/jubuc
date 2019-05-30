@@ -1,7 +1,10 @@
 <!-- Top Nav, Search & Login-->
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav" aria-controls="sidenav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Brizzle.Dev</a>
-    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <input class="form-control form-control-dark w-100 d-none d-sm-block" type="text" placeholder="Search" aria-label="Search">
     <ul class="navbar-nav px-3">
         {% if current_user.is_anonymous %}
         <li class="nav-item text-nowrap">
@@ -22,7 +25,7 @@
     <div class="row">
         <div class="col-md-2 d-non d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
-                <ul class="nav flex-column">
+                <ul  id="sidenav" class="nav flex-column ">
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="home"></span>
@@ -53,16 +56,6 @@
                             <span class="fa fa-magic"></span>
                             Shows
                         </a>
-                        <ul class="list-unstyled">
-                            <small>
-                            <li class="nav-item">
-                            <a class="nav-link pl-4" href="{{ url_for('admin_shows') }}">
-                            <span class="fa fa-magic"></span>
-                                RSVP
-                            </a>
-                            </li>
-                            </small>
-                        </ul>
                     </li>
 
                     <li class="nav-item">

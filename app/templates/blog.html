@@ -12,11 +12,11 @@
             <img class="card-top" src="{{ url_for('static', filename='uploads/posts/' + post.featured_image) }}" style="max-height:500px;" alt="" title="">
             <div class="card-body">
                <h5 class="card-title"><a href="{{ url_for('blog_post', slug=post.slug) }}">{{ post.title }}</a></h5>
-               <small class="card-title text-muted">{{ post.timestamp }}</small>
+               <small class="card-title text-muted">{{ moment(post.timestamp).format('LL') }}</small>
                <p class="card-text">{{ post.body[:250]}}...</p>
             </div>
         </div>
-        
+
                 {% endfor %}
             {% endif %}
 

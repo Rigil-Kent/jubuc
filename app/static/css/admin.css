@@ -95,3 +95,9 @@ body {
       margin: 0 0;
       padding: 0 0;
   }
+
+  @media (max-width:768px) {
+    .navbar-toggler {
+      width:100%;
+    }
+  }

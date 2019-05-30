@@ -259,3 +259,35 @@ nav a:hover {
 .form-fix {
     margin-top: -200px;
 }
+
+@media (max-width:768px) {
+
+    nav::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -19px;
+        height: 10px;
+        width: 106%;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar-toggler {
+        width:100%;
+    }
+
+    .nav-bar {
+        padding: 0;
+        margin:0;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-link:hover {
+        background-color: #750202;
+        color: white;
+    }
+}

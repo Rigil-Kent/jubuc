@@ -235,7 +235,7 @@ def blog_post(slug):
 
 @app.route('/blog')
 def blog():
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.id.desc()).limit(app.config['POSTS_PER_PAGE'])
     admin_settings = Administrator.query.get(1)
     return render_template('blog.html', posts=posts, admin_settings=admin_settings)
 
@@ -577,7 +577,8 @@ def delete_show(title):
     message = Markup('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Show <strong>{}</strong> deleted</div>'.format(show.title))
     if show.featured_image:
         os.remove(os.path.join(app.config['POSTS'], show.featured_image))
-    
+    for person in show.rsvps:
+        db.session.delete(person)
     db.session.delete(show)
     db.session.commit()
     flash(message)
