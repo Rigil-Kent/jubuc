@@ -40,7 +40,7 @@
     
     <div class="tab-content">
 
-        <div class="tab-pane container show active" role="tabpanel" id="index-edit">
+        <div class="tab-pane container show active pt-3" role="tabpanel" id="index-edit">
 
             <div class="form-group">
                 {{ form.username.label }}
@@ -74,9 +74,41 @@
                 {% endfor %}
             </div>
 
+            <div class="form-group">
+                {{ form.desc_header.label }}
+                {{ form.desc_header(class="form-control")}}
+                {% for error in form.desc_header.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.desc_details.label }}
+                {{ form.desc_details(class="form-control")}}
+                {% for error in form.desc_details.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.jumbotron_header.label }}
+                {{ form.jumbotron_header(class="form-control")}}
+                {% for error in form.jumbotron_header.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.jumbotron_subheader.label }}
+                {{ form.jumbotron_subheader(class="form-control")}}
+                {% for error in form.jumbotron_subheader.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
         </div>
 
-        <div class="tab-page container fade pb-0 mb-0" role="tabpanel" id="about-edit">
+        <div class="tab-pane container fade pt-3" role="tabpanel" id="about-edit">
             <div class="form-group">
                 {{ form.about_heading.label }}
                 {{ form.about_heading(class="form-control") }}
@@ -94,7 +126,7 @@
             </div>
         </div>
 
-        <div class="tab-pane container fade" id="display-edit">
+        <div class="tab-pane container fade pt-3" id="display-edit">
             <div class="form-group">
                 {{ form.site_dominant_color.label }}
                 {{ form.site_dominant_color(class="form-control cp") }}
@@ -120,7 +152,7 @@
             </div>
         </div>
 
-        <div class="tab-pane container fade " role="tabpanel" id="social-edit">
+        <div class="tab-pane container fade pt-3 " role="tabpanel" id="social-edit">
             <div class="form-group">
                 {{ form.facebook.label }}
                 {{ form.facebook(class="form-control") }}

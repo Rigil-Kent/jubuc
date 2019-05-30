@@ -107,3 +107,4 @@ migrations/
 *.cfg
 *.ini
 accounts.*
+*.db

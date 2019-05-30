@@ -15,6 +15,37 @@ from werkzeug.utils import secure_filename
 accepted_methods = ["GET", "POST"]
 translate = str.maketrans('', '', string.punctuation)
 
+
+@app.route('/robots.txt', methods=["GET"])
+def robots():
+    '''Generate robots.txt for SEO'''
+    robots_txt = render_template('robots.txt')
+    response = make_response(robots_txt)
+    response.headers['Content-Type'] = "text/plain"
+
+    return response
+
+@app.route('/sitemap.xml', methods=['GET'])
+def sitemap():
+    '''Generate sitemap.xml. Make a list of urls and date modified'''
+    pages = []
+
+    ten_days_ago = datetime.now() - timedelta(days=10)
+
+    # get static pages
+    for rule in current_app.url_map.iter_rules():
+        if 'GET' in rule.methods and len(rule.arguments) == 0 and not rule.rule.startswith('/admin'):
+            pages.append(["https://www.brizzle.dev" + rule.rule, ten_days_ago.date().isoformat()])
+
+    # blog post pages
+    posts=Post.query.order_by(Post.timestamp).all()
+    for post in posts:
+        url= "https://www.brizzle.dev" + url_for('blog_post', slug=post.slug)
+        modified_time=post.timestamp.date().isoformat()
+        pages.append([url,modified_time])
+
+
+
 def upload_file(filerequest, type=None):
     if request.method =="POST":
         if filerequest not in request.files:
@@ -268,7 +299,7 @@ def admin_audio():
             
     if form.validate_on_submit():
         if form.active_track.data is None:
-            pass
+            active = None
         else:
             active = Active.query.get(1)
 
@@ -286,7 +317,6 @@ def admin_audio():
     if upform.validate_on_submit():
         audio = Audio()
         audio.name = upform.name.data
-        audio.is_active = upform.is_active.data
         audio.file = upload_file('file', type='audio')
         if upform.album_art.data is not None:
             audio.album_art = upload_file('album_art', type="audio")
@@ -432,23 +462,49 @@ def admin_settings():
         form.last_name.data = admin.last_name
         form.email.data = admin.email
 
+        form.jumbotron_header.data = admin.jumbotron_header
+        form.jumbotron_subheader.data = admin.jumbotron_subheader
+
+        form.desc_details.data = admin.desc_details
+        form.desc_header.data = admin.desc_header
+
         form.about_details.data = admin.about_detail
         form.about_heading.data = admin.about_heading
 
         form.site_dominant_color.data = admin.site_dominant_color
         form.site_accent_color.data = admin.site_accent_color
 
+        form.facebook.data = admin.facebook
+        form.twitter.data = admin.twitter
+        form.instagram.data = admin.instagram
+        form.soundcloud.data = admin.soundcloud
+        form.spotify.data = admin.spotify
+        form.youtube.data = admin.youtube
+
     if form.validate_on_submit():
         admin = db.session.query(Administrator).get(1)
         admin.first_name = form.first_name.data
         admin.last_name = form.last_name.data
         admin.email = form.email.data
+        
+        admin.jumbotron_header = form.jumbotron_header.data
+        admin.jumbotron_subheader = form.jumbotron_subheader.data
+        admin.desc_header = form.desc_header.data
+        admin.desc_details = form.desc_details.data
 
         admin.about_detail = form.about_details.data
         admin.about_heading = form.about_heading.data
 
         admin.site_dominant_color = form.site_dominant_color.data
         admin.site_accent_color = form.site_accent_color.data
+        admin.facebook = form.facebook.data
+        admin.twitter = form.twitter.data
+        admin.soundcloud = form.soundcloud.data
+        admin.spotify = form.spotify.data
+        admin.youtube = form.youtube.data
+        admin.instagram = form.instagram.data
+
+
         db.session.add(admin)
         db.session.commit()
 
