@@ -10,6 +10,16 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" type="text/css">
     <script type="text/javascript">
+        var sidenav = document.getElementById('sidenav')
+      $(window).bind('resize load', function() {
+        if ($(this).width() < 576) {
+          $('#sidenav').removeClass('show pt-3');
+        }
+        else {
+          $('#sidenav').addClass('show');
+        }
+      });
+      
           function cbChange(obj) {
     var cbs = document.getElementsByClassName("cbx");
     for (var i = 0; i < cbs.length; i++) {

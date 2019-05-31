@@ -4,10 +4,13 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta property="og:url" context="https://www.iamjubuc.com">
+    <meta name="description" content="">
+    <meta name="author" content="Bryan Bailey | www.brizzle.dev">
+    <meta name="keywords" content="">
+    <meta property="og:url" context="https://www.jubuc.com">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="DJ Jubuc Baltimore">
-    <meta property="og:description" content = "DJ Jubuc. Baltimore's leading DJ.">
+    <meta property="og:title" content="{{ post.title }} DJ Jubuc Baltimore">
+    <meta property="og:description" content = "{{ post.body[:300] }} DJ Jubuc. Baltimore's leading DJ.">
     <meta propert="og:image" content="">
     <meta property="og:image:width" content="700">
     <meta property="og:image:height" content="600">
@@ -33,7 +36,7 @@
         {{ moment.include_moment() }}
         {{ pagedown.include_pagedown() }}
     {% endblock %}
-    <title>JUBUC - </title>
+    <title>JUBUC - {{ post.title }} </title>
   </head>
   <body>
   <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3&appId=206574139389252&autoLogAppEvents=1"></script>
@@ -75,10 +78,10 @@
     </div>
 
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item"><a class="nav-link" id="about-button" href="{{ url_for('index') }}" alt="" title="">Home</a></li>
-      <li class="nav-item"><a class="nav-link" id="about-button" href="{{ url_for('about') }}" alt="" title="">About</a></li>
-      <li class="nav-item"><a class="nav-link" role="button" aria-expanded="false" area-controls="events" href="{{ url_for('shows') }}" alt="" title="">Shows</a></li>
-      <li class="nav-item"><a class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" area-controls="media" href="{{ url_for('index') }}" alt="" title="">News</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}" alt="Jubuc Home" title="Jubuc Home">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}" alt="About Jubuc" title="About Jubuc">About</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('shows') }}" alt="Jubuc Shows" title="Jubuc Shows">Shows</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}" alt="Jubuc News" title="Jubuc News">News</a></li>
     </ul>
     </div>
   </nav>
@@ -86,10 +89,10 @@
 <div class="container-fluid jubuc-background-clear">
 </div>
   <div class="container mt-5 text-danger">
-      <h2 class="border-bottom border-secondary pt-1">&lt; Back to blog</h2>
+      <h2 class="border-bottom border-secondary pt-3"><span class="fas fa-microphone-alt"></span></h2>
       <div class="row">
           <div class="col-md-7">
-              <h2 class="display-4 mb-0 pb-0">{{ post.title }}</h2>
+              <h2 class="display-4 mb-0 pb-0 font-weight-bold">{{ post.title }}</h2>
               <h5 class="text-muted">{{ moment(post.timestamp).format('LLLL')}}</h5>
               <small>by {{ post.author.first_name }}</small>
               <p>
@@ -104,10 +107,10 @@
                   <a class="text-secondary" href="{{ url_for('blog_post', slug=next.slug) }}" alt="{{ next.title }}" title="{{ next.title }}">
                       <h4 class="text-center">next article</h4>
                 <div class="card card-inverse card-info bg-danger">
-                    <img class="card-img-top" src="{{ url_for('static', filename='uploads/posts/' + next.featured_image) }}">
+                    <img class="card-img-top" src="{{ url_for('static', filename='uploads/posts/' + next.featured_image) }}" alt="{{ next.title }}" title={{ next.title }}>
                     <div class="card-block">
                         <figure class="profile profile-inline">
-                            <img src="{% if next.author.avatar %}{{ url_for('static', filename='uploads/' + next.author.avatar) }}{% else %}https://picsum.photos/200/150/?random{% endif %}" class="profile-avatar" alt="">
+                            <img src="{% if next.author.avatar %}{{ url_for('static', filename='uploads/' + next.author.avatar) }}{% else %}https://picsum.photos/200/150/?random{% endif %}" class="profile-avatar" alt="{{ next.title }}" title="{{ next.title }}">
                         </figure>
                         <h4 class="card-title text-white">{{ next.author.first_name }}</h4>
                         <div class="card-text lead text-truncate">
